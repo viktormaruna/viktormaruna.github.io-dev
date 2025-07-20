@@ -19,3 +19,7 @@ disableKinds = ["sitemap"]
     repoId = "your-repo-id"
     category = "General"
     categoryId = "your-category-id"
+
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'
