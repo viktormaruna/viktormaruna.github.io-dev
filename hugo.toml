@@ -7,8 +7,13 @@ theme = 'vm'
 # Disable unnecessary page kinds to reduce page count
 disableKinds = ["sitemap"]
 
+# Enable tags taxonomy
 [taxonomies]
   tag = "tags"
+  category = "categories"
+
+# Enable tag and category pages
+enableTaxonomyPages = true
 
 [params]
   description = "Cloud, Data & AI"

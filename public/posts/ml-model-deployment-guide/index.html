@@ -5,36 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   
-  <title>Sample Article | dev.viktormaruna.com</title>
-  <meta name="description" content="This is a sample article to demonstrate a minimalist blog post.">
-  <meta name="keywords" content="blogging">
+  <title>Understanding Machine Learning Model Deployment | dev.viktormaruna.com</title>
+  <meta name="description" content="A comprehensive guide to deploying machine learning models in production environments using various deployment strategies.">
+  <meta name="keywords" content="machine-learning, mlops, deployment, python, ai, production">
   <meta name="author" content="Viktor Maruna">
   
   
   <meta property="og:type" content="article">
-  <meta property="og:url" content="http://localhost:1313/posts/sample-article/">
-  <meta property="og:title" content="Sample Article">
-  <meta property="og:description" content="This is a sample article to demonstrate a minimalist blog post.">
+  <meta property="og:url" content="http://localhost:1313/posts/ml-model-deployment-guide/">
+  <meta property="og:title" content="Understanding Machine Learning Model Deployment">
+  <meta property="og:description" content="A comprehensive guide to deploying machine learning models in production environments using various deployment strategies.">
   <meta property="og:site_name" content="dev.viktormaruna.com">
   
   
   
   <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="http://localhost:1313/posts/sample-article/">
-  <meta property="twitter:title" content="Sample Article">
-  <meta property="twitter:description" content="This is a sample article to demonstrate a minimalist blog post.">
+  <meta property="twitter:url" content="http://localhost:1313/posts/ml-model-deployment-guide/">
+  <meta property="twitter:title" content="Understanding Machine Learning Model Deployment">
+  <meta property="twitter:description" content="A comprehensive guide to deploying machine learning models in production environments using various deployment strategies.">
   
   
   
   
-  <meta property="article:published_time" content="2025-07-19T12:00:00&#43;02:00">
-  <meta property="article:modified_time" content="2025-07-19T12:00:00&#43;02:00">
+  <meta property="article:published_time" content="2025-07-20T14:30:00&#43;02:00">
+  <meta property="article:modified_time" content="2025-07-20T14:30:00&#43;02:00">
   <meta property="article:author" content="Viktor Maruna">
-  <meta property="article:tag" content="blogging">
+  <meta property="article:tag" content="machine-learning"><meta property="article:tag" content="mlops"><meta property="article:tag" content="deployment"><meta property="article:tag" content="python"><meta property="article:tag" content="ai"><meta property="article:tag" content="production">
   
   
   
-  <link rel="canonical" href="http://localhost:1313/posts/sample-article/">
+  <link rel="canonical" href="http://localhost:1313/posts/ml-model-deployment-guide/">
   
   
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
@@ -57,13 +57,13 @@
   {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "name": "Sample Article",
-    "url": "http:\/\/localhost:1313\/posts\/sample-article\/",
-    "description": "This is a sample article to demonstrate a minimalist blog post.",
+    "name": "Understanding Machine Learning Model Deployment",
+    "url": "http:\/\/localhost:1313\/posts\/ml-model-deployment-guide\/",
+    "description": "A comprehensive guide to deploying machine learning models in production environments using various deployment strategies.",
     
-    "headline": "Sample Article",
-    "datePublished": "2025-07-19T12:00:00\u002b02:00",
-    "dateModified": "2025-07-19T12:00:00\u002b02:00",
+    "headline": "Understanding Machine Learning Model Deployment",
+    "datePublished": "2025-07-20T14:30:00\u002b02:00",
+    "dateModified": "2025-07-20T14:30:00\u002b02:00",
     "author": {
       "@type": "Person",
       "name": "Viktor Maruna",
@@ -94,11 +94,6 @@
     footer a, footer a:link, footer a:visited, footer a:hover, footer a:active {
       color: #555 !important;
     }
-    
-     
-    nav a:hover {
-      border-bottom-color: #ddd !important;
-    }
   </style>
 </head>
 <body style="background:#fff; color:#222; font-family:sans-serif; margin:0;">
@@ -111,19 +106,68 @@
     <main style="flex:1; min-width:0;">
       
   <article style="margin-bottom:3rem;">
-    <h1 style="font-size:2rem; font-weight:400; margin-bottom:0.5rem; color:#666666;">Sample Article</h1>
-    <div style="color:#888; font-size:0.95rem; margin-bottom:2rem;">Jul 19, 2025</div>
-    <div style="line-height:1.7; font-size:1.05rem; color:#222;"><p>Welcome to your sample article! This page shows how a minimalist blog post will look in your theme.</p>
-<p>You can write Markdown here, add images, code blocks, and more. Edit or delete this post as you wish.</p>
-<h2 id="about-this-theme">About This Theme</h2>
-<p>This minimalist theme focuses on:</p>
+    <h1 style="font-size:2rem; font-weight:400; margin-bottom:0.5rem; color:#666666;">Understanding Machine Learning Model Deployment</h1>
+    <div style="color:#888; font-size:0.95rem; margin-bottom:2rem;">Jul 20, 2025</div>
+    <div style="line-height:1.7; font-size:1.05rem; color:#222;"><h1 id="understanding-machine-learning-model-deployment">Understanding Machine Learning Model Deployment</h1>
+<p>Deploying machine learning models to production is a critical step that transforms your experimental code into a business-ready solution that can serve real users and generate value.</p>
+<h2 id="deployment-strategies">Deployment Strategies</h2>
+<h3 id="1-batch-prediction">1. Batch Prediction</h3>
+<p>Process data in batches at scheduled intervals. Ideal for:</p>
 <ul>
-<li>Clean typography</li>
-<li>Simple navigation</li>
-<li>Fast loading times</li>
-<li>Mobile-friendly design</li>
+<li>Non-real-time predictions</li>
+<li>Large datasets</li>
+<li>Periodic reporting</li>
 </ul>
-<p>Feel free to customize it further to match your personal style!</p>
+<h3 id="2-real-time-inference">2. Real-time Inference</h3>
+<p>Serve predictions on-demand through APIs. Perfect for:</p>
+<ul>
+<li>Interactive applications</li>
+<li>Low-latency requirements</li>
+<li>Individual predictions</li>
+</ul>
+<h3 id="3-edge-deployment">3. Edge Deployment</h3>
+<p>Deploy models directly on edge devices. Great for:</p>
+<ul>
+<li>Offline scenarios</li>
+<li>Reduced latency</li>
+<li>Privacy-sensitive applications</li>
+</ul>
+<h2 id="key-considerations">Key Considerations</h2>
+<h3 id="performance">Performance</h3>
+<ul>
+<li><strong>Latency</strong>: How fast does your model need to respond?</li>
+<li><strong>Throughput</strong>: How many requests per second?</li>
+<li><strong>Resource usage</strong>: Memory and CPU requirements</li>
+</ul>
+<h3 id="scalability">Scalability</h3>
+<ul>
+<li>Horizontal scaling (more instances)</li>
+<li>Vertical scaling (more powerful hardware)</li>
+<li>Auto-scaling based on demand</li>
+</ul>
+<h3 id="monitoring">Monitoring</h3>
+<ul>
+<li>Model performance drift</li>
+<li>Data quality issues</li>
+<li>System health metrics</li>
+<li>Business impact tracking</li>
+</ul>
+<h2 id="popular-tools-and-platforms">Popular Tools and Platforms</h2>
+<ul>
+<li><strong>Cloud Platforms</strong>: Azure ML, AWS SageMaker, Google AI Platform</li>
+<li><strong>Containerization</strong>: Docker, Kubernetes</li>
+<li><strong>Model Serving</strong>: TensorFlow Serving, MLflow, Seldon</li>
+<li><strong>Monitoring</strong>: MLflow, Weights &amp; Biases, Neptune</li>
+</ul>
+<h2 id="best-practices">Best Practices</h2>
+<ol>
+<li><strong>Version everything</strong>: Models, data, and code</li>
+<li><strong>Implement proper testing</strong>: Unit, integration, and A/B tests</li>
+<li><strong>Monitor continuously</strong>: Performance and business metrics</li>
+<li><strong>Plan for rollback</strong>: Quick recovery from issues</li>
+<li><strong>Document thoroughly</strong>: Deployment procedures and dependencies</li>
+</ol>
+<p>Successful model deployment requires careful planning, robust infrastructure, and continuous monitoring to ensure your ML solutions deliver value in production environments.</p>
 </div>
     
     
@@ -131,7 +175,17 @@
       <h4 style="margin:0 0 1rem 0; font-size:0.9rem; color:#888; font-weight:500; text-transform:uppercase; letter-spacing:0.05em;">Tags</h4>
       <div>
         
-        <a href="/tags/blogging" style="display:inline-block; padding:0.3rem 0.8rem; margin:0 0.5rem 0.5rem 0; background:#f8f8f8; color:#555; text-decoration:none; border-radius:4px; font-size:0.85rem; transition:background-color 0.2s;">blogging</a>
+        <a href="/tags/machine-learning" style="display:inline-block; padding:0.3rem 0.8rem; margin:0 0.5rem 0.5rem 0; background:#f8f8f8; color:#555; text-decoration:none; border-radius:4px; font-size:0.85rem; transition:background-color 0.2s;">machine-learning</a>
+        
+        <a href="/tags/mlops" style="display:inline-block; padding:0.3rem 0.8rem; margin:0 0.5rem 0.5rem 0; background:#f8f8f8; color:#555; text-decoration:none; border-radius:4px; font-size:0.85rem; transition:background-color 0.2s;">mlops</a>
+        
+        <a href="/tags/deployment" style="display:inline-block; padding:0.3rem 0.8rem; margin:0 0.5rem 0.5rem 0; background:#f8f8f8; color:#555; text-decoration:none; border-radius:4px; font-size:0.85rem; transition:background-color 0.2s;">deployment</a>
+        
+        <a href="/tags/python" style="display:inline-block; padding:0.3rem 0.8rem; margin:0 0.5rem 0.5rem 0; background:#f8f8f8; color:#555; text-decoration:none; border-radius:4px; font-size:0.85rem; transition:background-color 0.2s;">python</a>
+        
+        <a href="/tags/ai" style="display:inline-block; padding:0.3rem 0.8rem; margin:0 0.5rem 0.5rem 0; background:#f8f8f8; color:#555; text-decoration:none; border-radius:4px; font-size:0.85rem; transition:background-color 0.2s;">ai</a>
+        
+        <a href="/tags/production" style="display:inline-block; padding:0.3rem 0.8rem; margin:0 0.5rem 0.5rem 0; background:#f8f8f8; color:#555; text-decoration:none; border-radius:4px; font-size:0.85rem; transition:background-color 0.2s;">production</a>
         
       </div>
     </div>
@@ -170,13 +224,13 @@
               <a href="/" style="color:#555; text-decoration:none; font-size:0.95rem; display:block; padding:0.3rem 0; border-bottom:1px solid transparent; transition:color 0.2s;">Home</a>
             </li>
             <li style="margin-bottom:0.8rem;">
-              <a href="/posts/" style="color:#555; text-decoration:none; font-size:0.95rem; display:block; padding:0.3rem 0; border-bottom:1px solid transparent; transition:all 0.2s;">Posts</a>
+              <a href="/posts/" style="color:#555; text-decoration:none; font-size:0.95rem; display:block; padding:0.3rem 0; border-bottom:1px solid transparent; transition:color 0.2s;">Posts</a>
             </li>
             <li style="margin-bottom:0.8rem;">
-              <a href="/tags/" style="color:#555; text-decoration:none; font-size:0.95rem; display:block; padding:0.3rem 0; border-bottom:1px solid transparent; transition:all 0.2s;">Tags</a>
+              <a href="/about/" style="color:#555; text-decoration:none; font-size:0.95rem; display:block; padding:0.3rem 0; border-bottom:1px solid transparent; transition:color 0.2s;">About</a>
             </li>
             <li style="margin-bottom:0.8rem;">
-              <a href="/about/" style="color:#555; text-decoration:none; font-size:0.95rem; display:block; padding:0.3rem 0; border-bottom:1px solid transparent; transition:all 0.2s;">About</a>
+              <a href="/tags/" style="color:#555; text-decoration:none; font-size:0.95rem; display:block; padding:0.3rem 0; border-bottom:1px solid transparent; transition:color 0.2s;">Tags</a>
             </li>
           </ul>
         </nav>
@@ -187,6 +241,174 @@
         <p style="margin:0 0 1rem 0; color:#666; font-size:0.9rem; line-height:1.5;">Stay updated with the latest posts.</p>
         <a href="/index.xml" style="display:inline-block; padding:0.6rem 1rem; background:transparent; color:#555; text-decoration:none; border:1px solid #ddd; border-radius:4px; font-size:0.85rem; font-weight:400; transition:all 0.2s;">RSS Feed</a>
       </div>
+      
+      
+      
+      
+        
+        
+      <div style="background:#f9f9f9; padding:1.2rem; border-radius:8px; margin-bottom:2rem;">
+        <h3 style="margin:0 0 1.2rem 0; font-size:1.1rem; font-weight:500; color:#333;">Popular Tags</h3>
+        
+        <div style="display:flex; flex-wrap:wrap; gap:0.6rem;">
+          
+            
+            
+            <a href="/tags/ai" 
+               class="tag-link"
+               style="display:inline-block; padding:0.4rem 0.8rem; background:#fff; color:#555; text-decoration:none; border-radius:16px; font-size:0.8rem; transition:all 0.2s; border:1px solid #e0e0e0; position:relative; overflow:hidden;"
+               onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#d0d0d0'; this.style.transform='translateY(-1px)';"
+               onmouseout="this.style.background='#fff'; this.style.borderColor='#e0e0e0'; this.style.transform='translateY(0)';">
+              Ai
+              <span style="color:#999; font-size:0.75rem; margin-left:0.3rem; font-weight:400;">(1)</span>
+            </a>
+            
+          
+            
+            
+            <a href="/tags/azure" 
+               class="tag-link"
+               style="display:inline-block; padding:0.4rem 0.8rem; background:#fff; color:#555; text-decoration:none; border-radius:16px; font-size:0.8rem; transition:all 0.2s; border:1px solid #e0e0e0; position:relative; overflow:hidden;"
+               onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#d0d0d0'; this.style.transform='translateY(-1px)';"
+               onmouseout="this.style.background='#fff'; this.style.borderColor='#e0e0e0'; this.style.transform='translateY(0)';">
+              Azure
+              <span style="color:#999; font-size:0.75rem; margin-left:0.3rem; font-weight:400;">(1)</span>
+            </a>
+            
+          
+            
+            
+            <a href="/tags/blogging" 
+               class="tag-link"
+               style="display:inline-block; padding:0.4rem 0.8rem; background:#fff; color:#555; text-decoration:none; border-radius:16px; font-size:0.8rem; transition:all 0.2s; border:1px solid #e0e0e0; position:relative; overflow:hidden;"
+               onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#d0d0d0'; this.style.transform='translateY(-1px)';"
+               onmouseout="this.style.background='#fff'; this.style.borderColor='#e0e0e0'; this.style.transform='translateY(0)';">
+              Blogging
+              <span style="color:#999; font-size:0.75rem; margin-left:0.3rem; font-weight:400;">(1)</span>
+            </a>
+            
+          
+            
+            
+            <a href="/tags/cloud" 
+               class="tag-link"
+               style="display:inline-block; padding:0.4rem 0.8rem; background:#fff; color:#555; text-decoration:none; border-radius:16px; font-size:0.8rem; transition:all 0.2s; border:1px solid #e0e0e0; position:relative; overflow:hidden;"
+               onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#d0d0d0'; this.style.transform='translateY(-1px)';"
+               onmouseout="this.style.background='#fff'; this.style.borderColor='#e0e0e0'; this.style.transform='translateY(0)';">
+              Cloud
+              <span style="color:#999; font-size:0.75rem; margin-left:0.3rem; font-weight:400;">(1)</span>
+            </a>
+            
+          
+            
+            
+            <a href="/tags/data-engineering" 
+               class="tag-link"
+               style="display:inline-block; padding:0.4rem 0.8rem; background:#fff; color:#555; text-decoration:none; border-radius:16px; font-size:0.8rem; transition:all 0.2s; border:1px solid #e0e0e0; position:relative; overflow:hidden;"
+               onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#d0d0d0'; this.style.transform='translateY(-1px)';"
+               onmouseout="this.style.background='#fff'; this.style.borderColor='#e0e0e0'; this.style.transform='translateY(0)';">
+              Data-Engineering
+              <span style="color:#999; font-size:0.75rem; margin-left:0.3rem; font-weight:400;">(1)</span>
+            </a>
+            
+          
+            
+            
+            <a href="/tags/data-factory" 
+               class="tag-link"
+               style="display:inline-block; padding:0.4rem 0.8rem; background:#fff; color:#555; text-decoration:none; border-radius:16px; font-size:0.8rem; transition:all 0.2s; border:1px solid #e0e0e0; position:relative; overflow:hidden;"
+               onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#d0d0d0'; this.style.transform='translateY(-1px)';"
+               onmouseout="this.style.background='#fff'; this.style.borderColor='#e0e0e0'; this.style.transform='translateY(0)';">
+              Data-Factory
+              <span style="color:#999; font-size:0.75rem; margin-left:0.3rem; font-weight:400;">(1)</span>
+            </a>
+            
+          
+            
+            
+            <a href="/tags/deployment" 
+               class="tag-link"
+               style="display:inline-block; padding:0.4rem 0.8rem; background:#fff; color:#555; text-decoration:none; border-radius:16px; font-size:0.8rem; transition:all 0.2s; border:1px solid #e0e0e0; position:relative; overflow:hidden;"
+               onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#d0d0d0'; this.style.transform='translateY(-1px)';"
+               onmouseout="this.style.background='#fff'; this.style.borderColor='#e0e0e0'; this.style.transform='translateY(0)';">
+              Deployment
+              <span style="color:#999; font-size:0.75rem; margin-left:0.3rem; font-weight:400;">(1)</span>
+            </a>
+            
+          
+            
+            
+            <a href="/tags/etl" 
+               class="tag-link"
+               style="display:inline-block; padding:0.4rem 0.8rem; background:#fff; color:#555; text-decoration:none; border-radius:16px; font-size:0.8rem; transition:all 0.2s; border:1px solid #e0e0e0; position:relative; overflow:hidden;"
+               onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#d0d0d0'; this.style.transform='translateY(-1px)';"
+               onmouseout="this.style.background='#fff'; this.style.borderColor='#e0e0e0'; this.style.transform='translateY(0)';">
+              Etl
+              <span style="color:#999; font-size:0.75rem; margin-left:0.3rem; font-weight:400;">(1)</span>
+            </a>
+            
+          
+            
+            
+            <a href="/tags/machine-learning" 
+               class="tag-link"
+               style="display:inline-block; padding:0.4rem 0.8rem; background:#fff; color:#555; text-decoration:none; border-radius:16px; font-size:0.8rem; transition:all 0.2s; border:1px solid #e0e0e0; position:relative; overflow:hidden;"
+               onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#d0d0d0'; this.style.transform='translateY(-1px)';"
+               onmouseout="this.style.background='#fff'; this.style.borderColor='#e0e0e0'; this.style.transform='translateY(0)';">
+              Machine-Learning
+              <span style="color:#999; font-size:0.75rem; margin-left:0.3rem; font-weight:400;">(1)</span>
+            </a>
+            
+          
+            
+            
+            <a href="/tags/mlops" 
+               class="tag-link"
+               style="display:inline-block; padding:0.4rem 0.8rem; background:#fff; color:#555; text-decoration:none; border-radius:16px; font-size:0.8rem; transition:all 0.2s; border:1px solid #e0e0e0; position:relative; overflow:hidden;"
+               onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#d0d0d0'; this.style.transform='translateY(-1px)';"
+               onmouseout="this.style.background='#fff'; this.style.borderColor='#e0e0e0'; this.style.transform='translateY(0)';">
+              Mlops
+              <span style="color:#999; font-size:0.75rem; margin-left:0.3rem; font-weight:400;">(1)</span>
+            </a>
+            
+          
+            
+            
+            <a href="/tags/production" 
+               class="tag-link"
+               style="display:inline-block; padding:0.4rem 0.8rem; background:#fff; color:#555; text-decoration:none; border-radius:16px; font-size:0.8rem; transition:all 0.2s; border:1px solid #e0e0e0; position:relative; overflow:hidden;"
+               onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#d0d0d0'; this.style.transform='translateY(-1px)';"
+               onmouseout="this.style.background='#fff'; this.style.borderColor='#e0e0e0'; this.style.transform='translateY(0)';">
+              Production
+              <span style="color:#999; font-size:0.75rem; margin-left:0.3rem; font-weight:400;">(1)</span>
+            </a>
+            
+          
+            
+            
+            <a href="/tags/python" 
+               class="tag-link"
+               style="display:inline-block; padding:0.4rem 0.8rem; background:#fff; color:#555; text-decoration:none; border-radius:16px; font-size:0.8rem; transition:all 0.2s; border:1px solid #e0e0e0; position:relative; overflow:hidden;"
+               onmouseover="this.style.background='#f0f0f0'; this.style.borderColor='#d0d0d0'; this.style.transform='translateY(-1px)';"
+               onmouseout="this.style.background='#fff'; this.style.borderColor='#e0e0e0'; this.style.transform='translateY(0)';">
+              Python
+              <span style="color:#999; font-size:0.75rem; margin-left:0.3rem; font-weight:400;">(1)</span>
+            </a>
+            
+          
+        </div>
+        
+        <div style="margin-top:1.2rem; padding-top:0.8rem; border-top:1px solid #e8e8e8;">
+          <a href="/tags/" 
+             style="color:#666; text-decoration:none; font-size:0.85rem; font-weight:400; transition:all 0.2s; display:inline-flex; align-items:center; gap:0.3rem;"
+             onmouseover="this.style.color='#555'; this.style.textDecoration='underline';"
+             onmouseout="this.style.color='#666'; this.style.textDecoration='none';">
+            <span>View all tags</span>
+            <span style="font-size:0.9rem;">→</span>
+          </a>
+        </div>
+      </div>
+        
       
       
       <div style="background:#f9f9f9; padding:1.2rem; border-radius:8px; margin-bottom:2rem;">
@@ -325,6 +547,11 @@
               
               link.style.border = '1px solid #555';
               link.style.color = '#e0e0e0';
+            } else if (link.href.includes('/tags/') || link.classList.contains('tag-link')) {
+              
+              link.style.background = '#333';
+              link.style.border = '1px solid #555';
+              link.style.color = '#e0e0e0';
             } else {
               
               link.style.color = '#e0e0e0';
@@ -458,6 +685,11 @@
             if (link.href.includes('index.xml')) {
               
               link.style.border = '1px solid #ddd';
+              link.style.color = '#555';
+            } else if (link.href.includes('/tags/') || link.classList.contains('tag-link')) {
+              
+              link.style.background = '#fff';
+              link.style.border = '1px solid #e0e0e0';
               link.style.color = '#555';
             } else {
               
