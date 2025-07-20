@@ -1,0 +1,22 @@
+{{ define "main" }}
+  <h2 style="font-size:1.5rem; font-weight:400; margin-bottom:2rem; color:#666666;">{{ .Title }}</h2>
+  <ul style="list-style:none; padding:0;">
+    {{ range .Pages }}
+    <li style="margin-bottom:2rem;">
+      <a href="{{ .RelPermalink }}" style="font-size:1.2rem; color:#666666; text-decoration:none; font-weight:500;">{{ .Title }}</a>
+      <div style="color:#888; font-size:0.95rem; margin-top:0.2rem;">
+        {{ .Date.Format "Jan 2, 2006" }}
+        {{ with .Params.tags }}
+          <span style="margin-left:1rem;">
+            {{ range $index, $tag := . }}
+              {{ if $index }} • {{ end }}
+              <a href="{{ "/tags/" | relURL }}{{ $tag | urlize }}" style="color:#999; text-decoration:none; font-size:0.85rem;">#{{ $tag }}</a>
+            {{ end }}
+          </span>
+        {{ end }}
+      </div>
+      {{ with .Params.summary }}<p style="margin:0.5rem 0 0; color:#555;">{{ . }}</p>{{ end }}
+    </li>
+    {{ end }}
+  </ul>
+{{ end }}

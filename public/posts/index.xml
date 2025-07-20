@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on dev.viktormaruna.com</title>
+    <link>http://localhost:1313/posts/</link>
+    <description>Recent content in Posts on dev.viktormaruna.com</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 19 Jul 2025 12:00:00 +0200</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sample Article</title>
+      <link>http://localhost:1313/posts/sample-article/</link>
+      <pubDate>Sat, 19 Jul 2025 12:00:00 +0200</pubDate>
+      <guid>http://localhost:1313/posts/sample-article/</guid>
+      <description>This is a sample article to demonstrate a minimalist blog post.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,21 @@
+baseURL = 'https://example.org/'
+languageCode = 'en-us'
+title = 'dev.viktormaruna.com'
+
+theme = 'vm'
+
+# Disable unnecessary page kinds to reduce page count
+disableKinds = ["sitemap"]
+
+[taxonomies]
+  tag = "tags"
+
+[params]
+  description = "Cloud, Data & AI"
+  
+  [params.giscus]
+    enable = true
+    repo = "your-username/your-repo"
+    repoId = "your-repo-id"
+    category = "General"
+    categoryId = "your-category-id"

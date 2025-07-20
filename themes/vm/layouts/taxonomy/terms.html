@@ -1,0 +1,12 @@
+{{ define "main" }}
+  <h2 style="font-size:1.5rem; font-weight:400; margin-bottom:2rem;">{{ .Title }}</h2>
+  
+  <ul style="list-style:none; padding:0;">
+    {{ range .Data.Terms.Alphabetical }}
+    <li style="margin-bottom:1rem;">
+      <a href="{{ .Page.RelPermalink }}" style="font-size:1.1rem; color:#222; text-decoration:none; font-weight:500;">{{ .Page.Title }}</a>
+      <span style="color:#888; font-size:0.9rem; margin-left:0.5rem;">({{ .Count }})</span>
+    </li>
+    {{ end }}
+  </ul>
+{{ end }}
