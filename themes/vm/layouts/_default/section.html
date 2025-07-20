@@ -1,5 +1,5 @@
 {{ define "main" }}
-  <h2 style="font-size:1.5rem; font-weight:400; margin-bottom:2rem;">{{ .Title }}</h2>
+  <h2 style="font-size:1.5rem; font-weight:400; margin-bottom:2rem; color:#00A19B;">{{ .Title }}</h2>
   {{ with .Content }}
     <div style="margin-bottom:2rem; line-height:1.6; color:#555;">{{ . }}</div>
   {{ end }}
@@ -8,7 +8,7 @@
     {{ range .Pages }}
     <li style="margin-bottom:2rem;">
       <h3 style="margin:0 0 0.5rem 0;">
-        <a href="{{ .RelPermalink }}" style="font-size:1.2rem; color:#222; text-decoration:none; font-weight:500;">{{ .Title }}</a>
+        <a href="{{ .RelPermalink }}" style="font-size:1.2rem; color:#00A19B; text-decoration:none; font-weight:500;">{{ .Title }}</a>
       </h3>
       <div style="color:#888; font-size:0.95rem; margin-bottom:0.5rem;">{{ .Date.Format "Jan 2, 2006" }}</div>
       {{ with .Summary }}

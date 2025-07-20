@@ -81,6 +81,118 @@
   
   <link rel="stylesheet" href="/css/main.css">
   <style>
+    /* Petronas teal titles for all page types */
+    .petronas-title, .petronas-title a {
+      color: #00A19B !important;
+    }
+    
+    .petronas-title a:hover {
+      color: #008B85 !important;
+    }
+    
+    /* Main content typography alignment with sidebar */
+    main {
+      font-family: sans-serif;
+      line-height: 1.5;
+    }
+    
+    main h1 {
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: #00A19B;
+      margin: 0 0 1.5rem 0;
+      line-height: 1.3;
+    }
+    
+    main h2 {
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: #333;
+      margin: 2rem 0 1rem 0;
+      line-height: 1.3;
+    }
+    
+    main h3 {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #333;
+      margin: 1.5rem 0 0.8rem 0;
+      line-height: 1.3;
+    }
+    
+    main h4 {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #333;
+      margin: 1.2rem 0 0.6rem 0;
+      line-height: 1.3;
+    }
+    
+    main h5, main h6 {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #333;
+      margin: 1rem 0 0.5rem 0;
+      line-height: 1.3;
+    }
+    
+    main p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin: 0 0 1.2rem 0;
+      color: #444;
+    }
+    
+    main li {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin: 0.3rem 0;
+      color: #444;
+    }
+    
+    main ul, main ol {
+      margin: 0 0 1.2rem 0;
+      padding-left: 1.5rem;
+    }
+    
+    main blockquote {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin: 1.5rem 0;
+      padding: 1rem 1.5rem;
+      background: #f8f8f8;
+      border-left: 4px solid #ddd;
+      color: #555;
+      font-style: italic;
+    }
+    
+    main code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      background: #f5f5f5;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      color: #666;
+    }
+    
+    main pre {
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      background: #f5f5f5;
+      padding: 1rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin: 1.2rem 0;
+      color: #666;
+      line-height: 1.4;
+    }
+    
+    main pre code {
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+    }
+    
     /* Ensure no blue links anywhere */
     a, a:link, a:visited, a:hover, a:active {
       color: #555 !important;
@@ -89,6 +201,12 @@
     /* Override for specific link types */
     main a, main a:link, main a:visited, main a:hover, main a:active {
       color: #555 !important;
+      text-decoration: underline;
+      font-size: inherit;
+    }
+    
+    main a:hover {
+      color: #333 !important;
     }
     
     footer a, footer a:link, footer a:visited, footer a:hover, footer a:active {
@@ -138,6 +256,31 @@
       
       header h1 {
         font-size: 1.5rem !important;
+      }
+      
+      main h1 {
+        font-size: 1.5rem !important;
+      }
+      
+      main h2 {
+        font-size: 1.25rem !important;
+      }
+      
+      main h3 {
+        font-size: 1.1rem !important;
+      }
+      
+      main p, main li {
+        font-size: 0.9rem !important;
+      }
+      
+      main blockquote {
+        font-size: 0.9rem !important;
+        padding: 0.8rem 1rem !important;
+      }
+      
+      main code, main pre {
+        font-size: 0.8rem !important;
       }
       
       #theme-toggle {
@@ -192,6 +335,31 @@
       
       header p {
         font-size: 0.9rem !important;
+      }
+      
+      main h1 {
+        font-size: 1.3rem !important;
+      }
+      
+      main h2 {
+        font-size: 1.15rem !important;
+      }
+      
+      main h3 {
+        font-size: 1.05rem !important;
+      }
+      
+      main p, main li {
+        font-size: 0.85rem !important;
+      }
+      
+      main blockquote {
+        font-size: 0.85rem !important;
+        padding: 0.6rem 0.8rem !important;
+      }
+      
+      main code, main pre {
+        font-size: 0.75rem !important;
       }
       
       .sidebar-section {
@@ -322,55 +490,61 @@
           if (main) {
             main.style.color = '#ffffff';
             
-            // Update all headings in main content (except those with specific colors)
+            // Update all headings in main content
             const headings = main.querySelectorAll('h1, h2, h3, h4, h5, h6');
             headings.forEach(h => {
-              // Keep page titles (#666666) consistent in both modes
-              if (h.style.color === 'rgb(102, 102, 102)' || h.style.color === '#666666') {
-                h.style.color = '#666666';
+              if (h.tagName.toLowerCase() === 'h1') {
+                h.style.color = '#00D4AA'; // Brighter teal for dark mode
               } else {
                 h.style.color = '#ffffff';
               }
             });
             
+            // Update Petronas-colored titles and links
+            const petronasElements = document.querySelectorAll('[style*="#00A19B"], a[style*="#00A19B"]');
+            petronasElements.forEach(el => {
+              el.style.color = '#00D4AA';
+            });
+            
             // Update all paragraphs in main content
             const paragraphs = main.querySelectorAll('p');
             paragraphs.forEach(p => {
-              p.style.color = '#ffffff';
+              p.style.color = '#e0e0e0';
+            });
+            
+            // Update all list items in main content
+            const listItems = main.querySelectorAll('li');
+            listItems.forEach(li => {
+              li.style.color = '#e0e0e0';
             });
             
             // Update all links in main content
             const mainLinks = main.querySelectorAll('a');
             mainLinks.forEach(link => {
-              link.style.color = '#e0e0e0';
+              link.style.color = '#88c999 !important';
             });
             
             // Update all other links on page (universal override)
             const allLinks = document.querySelectorAll('a');
             allLinks.forEach(link => {
               // Skip navigation and RSS links which have their own handling
-              if (!link.closest('nav') && !link.href.includes('index.xml')) {
-                link.style.color = '#e0e0e0';
+              if (!link.closest('nav') && !link.href.includes('index.xml') && !link.closest('aside')) {
+                link.style.color = '#88c999';
               }
-            });
-            
-            // Update lists in main content
-            const lists = main.querySelectorAll('ul, ol, li');
-            lists.forEach(list => {
-              list.style.color = '#ffffff';
             });
             
             // Update blockquotes in main content
             const blockquotes = main.querySelectorAll('blockquote');
             blockquotes.forEach(bq => {
-              bq.style.color = '#ffffff';
+              bq.style.color = '#d0d0d0';
+              bq.style.background = '#2a2a2a';
               bq.style.borderLeft = '4px solid #555';
             });
             
             // Update code blocks and inline code
             const codeElements = main.querySelectorAll('code, pre');
             codeElements.forEach(code => {
-              code.style.color = '#ffffff';
+              code.style.color = '#e0e0e0';
               code.style.background = '#2d2d2d';
             });
           }
@@ -470,18 +644,29 @@
             // Reset all headings in main content
             const headings = main.querySelectorAll('h1, h2, h3, h4, h5, h6');
             headings.forEach(h => {
-              // Keep page titles at #666666, reset others to default
-              if (h.style.color === 'rgb(102, 102, 102)' || h.style.color === '#666666') {
-                h.style.color = '#666666';
+              if (h.tagName.toLowerCase() === 'h1') {
+                h.style.color = '#00A19B'; // Keep Petronas teal for h1
               } else {
                 h.style.color = '';
               }
+            });
+            
+            // Reset Petronas-colored titles and links to original teal
+            const petronasElements = document.querySelectorAll('[style*="#00D4AA"], a[style*="#00D4AA"]');
+            petronasElements.forEach(el => {
+              el.style.color = '#00A19B';
             });
             
             // Reset all paragraphs in main content
             const paragraphs = main.querySelectorAll('p');
             paragraphs.forEach(p => {
               p.style.color = '';
+            });
+            
+            // Reset all list items in main content
+            const listItems = main.querySelectorAll('li');
+            listItems.forEach(li => {
+              li.style.color = '';
             });
             
             // Reset all links in main content
@@ -494,21 +679,16 @@
             const allLinks = document.querySelectorAll('a');
             allLinks.forEach(link => {
               // Skip navigation and RSS links which have their own handling
-              if (!link.closest('nav') && !link.href.includes('index.xml')) {
+              if (!link.closest('nav') && !link.href.includes('index.xml') && !link.closest('aside')) {
                 link.style.color = '#555';
               }
-            });
-            
-            // Reset lists in main content
-            const lists = main.querySelectorAll('ul, ol, li');
-            lists.forEach(list => {
-              list.style.color = '';
             });
             
             // Reset blockquotes in main content
             const blockquotes = main.querySelectorAll('blockquote');
             blockquotes.forEach(bq => {
               bq.style.color = '';
+              bq.style.background = '';
               bq.style.borderLeft = '';
             });
             
