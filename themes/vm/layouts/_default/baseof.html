@@ -99,6 +99,19 @@
     nav a:hover {
       border-bottom-color: #ddd !important;
     }
+    
+    /* Tag links hover effects */
+    aside a[href*="/tags/"]:hover {
+      background: #f0f0f0 !important;
+      border-color: #d0d0d0 !important;
+      transform: translateY(-1px) !important;
+    }
+    
+    /* View all tags link hover effects */
+    aside div > a[href="/tags/"]:hover {
+      color: #555 !important;
+      text-decoration: underline !important;
+    }
   </style>
 </head>
 <body style="background:#fff; color:#222; font-family:sans-serif; margin:0;">
@@ -275,6 +288,17 @@
               // RSS button
               link.style.border = '1px solid #555';
               link.style.color = '#e0e0e0';
+            } else if (link.href.includes('/tags/')) {
+              // Tag links
+              if (link.querySelector('span')) {
+                // Tag buttons with counts
+                link.style.background = '#333';
+                link.style.border = '1px solid #555';
+                link.style.color = '#e0e0e0';
+              } else {
+                // "View all tags" link
+                link.style.color = '#e0e0e0';
+              }
             } else {
               // Navigation links
               link.style.color = '#e0e0e0';
@@ -409,6 +433,17 @@
               // RSS button
               link.style.border = '1px solid #ddd';
               link.style.color = '#555';
+            } else if (link.href.includes('/tags/')) {
+              // Tag links
+              if (link.querySelector('span')) {
+                // Tag buttons with counts
+                link.style.background = '#fff';
+                link.style.border = '1px solid #e0e0e0';
+                link.style.color = '#555';
+              } else {
+                // "View all tags" link
+                link.style.color = '#666';
+              }
             } else {
               // Navigation links
               link.style.color = '#555';
