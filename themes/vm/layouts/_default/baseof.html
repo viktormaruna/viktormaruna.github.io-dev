@@ -112,6 +112,101 @@
       color: #555 !important;
       text-decoration: underline !important;
     }
+    
+    /* Mobile responsive styles */
+    @media (max-width: 768px) {
+      .main-container {
+        flex-direction: column !important;
+        gap: 2rem !important;
+        padding: 0 0.5rem !important;
+        margin: 1rem auto !important;
+      }
+      
+      .sidebar {
+        width: 100% !important;
+        flex: none !important;
+        order: 2;
+      }
+      
+      .main-content {
+        order: 1;
+      }
+      
+      header {
+        padding: 1.5rem 0 !important;
+      }
+      
+      header h1 {
+        font-size: 1.5rem !important;
+      }
+      
+      #theme-toggle {
+        top: 1rem !important;
+        right: 1rem !important;
+      }
+      
+      .sidebar-section {
+        padding: 1rem !important;
+        margin-bottom: 1.5rem !important;
+      }
+      
+      .tag-container {
+        gap: 0.3rem !important;
+      }
+      
+      .tag-link {
+        font-size: 0.75rem !important;
+        padding: 0.3rem 0.6rem !important;
+      }
+      
+      .tag-count {
+        font-size: 0.65rem !important;
+      }
+      
+      footer {
+        padding: 2rem 0 1.5rem !important;
+        margin-top: 2rem !important;
+      }
+    }
+    
+    @media (min-width: 769px) and (max-width: 1200px) {
+      .sidebar {
+        flex: 0 0 180px !important;
+      }
+    }
+    
+    @media (min-width: 1201px) {
+      .sidebar {
+        flex: 0 0 220px !important;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .main-container {
+        padding: 0 0.25rem !important;
+      }
+      
+      header h1 {
+        font-size: 1.3rem !important;
+      }
+      
+      header p {
+        font-size: 0.9rem !important;
+      }
+      
+      .sidebar-section {
+        padding: 0.8rem !important;
+      }
+      
+      .nav-link, .rss-link {
+        font-size: 0.85rem !important;
+      }
+      
+      #search-input {
+        padding: 0.6rem !important;
+        font-size: 0.85rem !important;
+      }
+    }
   </style>
 </head>
 <body style="background:#fff; color:#222; font-family:sans-serif; margin:0;">
@@ -120,39 +215,57 @@
     <h1 style="margin:0; font-size:2rem; font-weight:400;">{{ .Site.Title }}</h1>
     <p style="margin:0.5rem 0 0; color:#888; font-size:1rem;">{{ .Site.Params.description }}</p>
   </header>
-  <div style="max-width:1000px; margin:2rem auto; padding:0 1rem; display:flex; gap:3rem;">
-    <main style="flex:1; min-width:0;">
+  <div class="main-container" style="max-width:1000px; margin:2rem auto; padding:0 1rem; display:flex; gap:3rem;">
+    <main class="main-content" style="flex:1; min-width:0;">
       {{ block "main" . }}{{ end }}
     </main>
-    <aside style="width:200px; flex-shrink:0;">
-      <div style="background:#f9f9f9; padding:1.2rem; border-radius:8px; margin-bottom:2rem;">
+    <aside class="sidebar" style="flex: 0 0 200px;">
+      <div class="sidebar-section" style="background:#f9f9f9; padding:1.2rem; border-radius:8px; margin-bottom:2rem;">
         <h3 style="margin:0 0 1.2rem 0; font-size:1.1rem; font-weight:500; color:#333;">Navigation</h3>
         <nav>
           <ul style="list-style:none; padding:0; margin:0;">
             <li style="margin-bottom:0.8rem;">
-              <a href="{{ "/" | relURL }}" style="color:#555; text-decoration:none; font-size:0.95rem; display:block; padding:0.3rem 0; border-bottom:1px solid transparent; transition:color 0.2s;">Home</a>
+              <a href="{{ "/" | relURL }}" class="nav-link" style="color:#555; text-decoration:none; font-size:0.95rem; display:block; padding:0.3rem 0; border-bottom:1px solid transparent; transition:color 0.2s;">Home</a>
             </li>
             <li style="margin-bottom:0.8rem;">
-              <a href="{{ "/posts/" | relURL }}" style="color:#555; text-decoration:none; font-size:0.95rem; display:block; padding:0.3rem 0; border-bottom:1px solid transparent; transition:all 0.2s;">Posts</a>
+              <a href="{{ "/posts/" | relURL }}" class="nav-link" style="color:#555; text-decoration:none; font-size:0.95rem; display:block; padding:0.3rem 0; border-bottom:1px solid transparent; transition:all 0.2s;">Posts</a>
             </li>
             <li style="margin-bottom:0.8rem;">
-              <a href="{{ "/tags/" | relURL }}" style="color:#555; text-decoration:none; font-size:0.95rem; display:block; padding:0.3rem 0; border-bottom:1px solid transparent; transition:all 0.2s;">Tags</a>
+              <a href="{{ "/tags/" | relURL }}" class="nav-link" style="color:#555; text-decoration:none; font-size:0.95rem; display:block; padding:0.3rem 0; border-bottom:1px solid transparent; transition:all 0.2s;">Tags</a>
             </li>
             <li style="margin-bottom:0.8rem;">
-              <a href="{{ "/about/" | relURL }}" style="color:#555; text-decoration:none; font-size:0.95rem; display:block; padding:0.3rem 0; border-bottom:1px solid transparent; transition:all 0.2s;">About</a>
+              <a href="{{ "/about/" | relURL }}" class="nav-link" style="color:#555; text-decoration:none; font-size:0.95rem; display:block; padding:0.3rem 0; border-bottom:1px solid transparent; transition:all 0.2s;">About</a>
             </li>
           </ul>
         </nav>
       </div>
       
-      <div style="background:#f9f9f9; padding:1.2rem; border-radius:8px; margin-bottom:2rem;">
+      <div class="sidebar-section" style="background:#f9f9f9; padding:1.2rem; border-radius:8px; margin-bottom:2rem;">
         <h3 style="margin:0 0 1.2rem 0; font-size:1.1rem; font-weight:500; color:#333;">Subscribe</h3>
         <p style="margin:0 0 1rem 0; color:#666; font-size:0.9rem; line-height:1.5;">Stay updated with the latest posts.</p>
-        <a href="{{ "/index.xml" | relURL }}" style="display:inline-block; padding:0.6rem 1rem; background:transparent; color:#555; text-decoration:none; border:1px solid #ddd; border-radius:4px; font-size:0.85rem; font-weight:400; transition:all 0.2s;">RSS Feed</a>
+        <a href="{{ "/index.xml" | relURL }}" class="rss-link" style="display:inline-block; padding:0.6rem 1rem; background:transparent; color:#555; text-decoration:none; border:1px solid #ddd; border-radius:4px; font-size:0.85rem; font-weight:400; transition:all 0.2s;">RSS Feed</a>
       </div>
       {{ block "sidebar" . }}{{ end }}
       
-      <div style="background:#f9f9f9; padding:1.2rem; border-radius:8px; margin-bottom:2rem;">
+      <div class="sidebar-section" style="background:#f9f9f9; padding:1.2rem; border-radius:8px; margin-bottom:2rem;">
+        <h3 style="margin:0 0 1.2rem 0; font-size:1.1rem; font-weight:500; color:#333;">Tags</h3>
+        {{ $tags := .Site.Taxonomies.tags }}
+        {{ if $tags }}
+          <div class="tag-container" style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1rem;">
+            {{ range first 8 $tags.ByCount }}
+              <a href="{{ .Page.RelPermalink }}" class="tag-link" style="display:inline-flex; align-items:center; padding:0.4rem 0.8rem; background:#fff; color:#555; text-decoration:none; border:1px solid #e0e0e0; border-radius:20px; font-size:0.8rem; font-weight:400; transition:all 0.2s;">
+                {{ .Page.Title }}
+                <span class="tag-count" style="margin-left:0.4rem; background:#f0f0f0; color:#666; padding:0.1rem 0.4rem; border-radius:10px; font-size:0.7rem;">{{ .Count }}</span>
+              </a>
+            {{ end }}
+          </div>
+          <div style="text-align:center;">
+            <a href="{{ "/tags/" | relURL }}" style="color:#666; text-decoration:none; font-size:0.85rem; padding:0.3rem 0; display:block; transition:color 0.2s;">View all tags</a>
+          </div>
+        {{ end }}
+      </div>
+      
+      <div class="sidebar-section" style="background:#f9f9f9; padding:1.2rem; border-radius:8px; margin-bottom:2rem;">
         <h3 style="margin:0 0 1.2rem 0; font-size:1.1rem; font-weight:500; color:#333;">Search</h3>
         <input type="text" id="search-input" placeholder="Search posts..." style="width:100%; padding:0.7rem; border:1px solid #ddd; border-radius:4px; font-size:0.9rem; box-sizing:border-box;">
         <div id="search-results" style="margin-top:1rem; display:none;">
