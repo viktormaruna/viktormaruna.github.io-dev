@@ -198,6 +198,19 @@
       color: #555 !important;
     }
     
+    /* Post title links should use Petronas color - higher specificity */
+    main h3 a, main h2 a, main h1 a,
+    main h3 a:link, main h2 a:link, main h1 a:link,
+    main h3 a:visited, main h2 a:visited, main h1 a:visited,
+    main h3 a:active, main h2 a:active, main h1 a:active {
+      color: #00A19B !important;
+      text-decoration: none !important;
+    }
+    
+    main h3 a:hover, main h2 a:hover, main h1 a:hover {
+      color: #008B85 !important;
+    }
+    
     /* Override for specific link types */
     main a, main a:link, main a:visited, main a:hover, main a:active {
       color: #555 !important;
@@ -214,12 +227,13 @@
     }
     
     /* Navigation links hover effects */
-    nav a:hover {
+    nav a:hover, nav .nav-link:hover {
+      color: #333 !important;
       border-bottom-color: #ddd !important;
     }
     
-    /* Tag links hover effects */
-    aside a[href*="/tags/"]:hover {
+    /* Sidebar tag links hover effects */
+    .tag-link:hover {
       background: #f0f0f0 !important;
       border-color: #d0d0d0 !important;
       transform: translateY(-1px) !important;
@@ -393,10 +407,10 @@
         <nav>
           <ul style="list-style:none; padding:0; margin:0;">
             <li style="margin-bottom:0.8rem;">
-              <a href="{{ "/" | relURL }}" class="nav-link" style="color:#555; text-decoration:none; font-size:0.95rem; display:block; padding:0.3rem 0; border-bottom:1px solid transparent; transition:color 0.2s;">Home</a>
+              <a href="{{ "/" | relURL }}" class="nav-link" style="color:#555; text-decoration:none; font-size:0.95rem; display:block; padding:0.3rem 0; border-bottom:1px solid transparent; transition:all 0.2s;">Home</a>
             </li>
             <li style="margin-bottom:0.8rem;">
-              <a href="{{ "/posts/" | relURL }}" class="nav-link" style="color:#555; text-decoration:none; font-size:0.95rem; display:block; padding:0.3rem 0; border-bottom:1px solid transparent; transition:all 0.2s;">Posts</a>
+              <a href="{{ "/posts/" | relURL }}" class="nav-link" style="color:#00A19B; text-decoration:none; font-size:0.95rem; display:block; padding:0.3rem 0; border-bottom:1px solid transparent; transition:all 0.2s;">Posts</a>
             </li>
             <li style="margin-bottom:0.8rem;">
               <a href="{{ "/tags/" | relURL }}" class="nav-link" style="color:#555; text-decoration:none; font-size:0.95rem; display:block; padding:0.3rem 0; border-bottom:1px solid transparent; transition:all 0.2s;">Tags</a>
@@ -411,7 +425,7 @@
       <div class="sidebar-section" style="background:#f9f9f9; padding:1.2rem; border-radius:8px; margin-bottom:2rem;">
         <h3 style="margin:0 0 1.2rem 0; font-size:1.1rem; font-weight:500; color:#333;">Subscribe</h3>
         <p style="margin:0 0 1rem 0; color:#666; font-size:0.9rem; line-height:1.5;">Stay updated with the latest posts.</p>
-        <a href="{{ "/index.xml" | relURL }}" class="rss-link" style="display:inline-block; padding:0.6rem 1rem; background:transparent; color:#555; text-decoration:none; border:1px solid #ddd; border-radius:4px; font-size:0.85rem; font-weight:400; transition:all 0.2s;">RSS Feed</a>
+        <a href="{{ "/feed.xml" | relURL }}" class="rss-link" style="display:inline-block; padding:0.6rem 1rem; background:transparent; color:#555; text-decoration:none; border:1px solid #ddd; border-radius:4px; font-size:0.85rem; font-weight:400; transition:all 0.2s;">RSS Feed</a>
       </div>
       {{ block "sidebar" . }}{{ end }}
       
@@ -419,11 +433,11 @@
         <h3 style="margin:0 0 1.2rem 0; font-size:1.1rem; font-weight:500; color:#333;">Tags</h3>
         {{ $tags := .Site.Taxonomies.tags }}
         {{ if $tags }}
-          <div class="tag-container" style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1rem;">
+          <div class="tag-container" style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-bottom:1rem;">
             {{ range first 8 $tags.ByCount }}
-              <a href="{{ .Page.RelPermalink }}" class="tag-link" style="display:inline-flex; align-items:center; padding:0.4rem 0.8rem; background:#fff; color:#555; text-decoration:none; border:1px solid #e0e0e0; border-radius:20px; font-size:0.8rem; font-weight:400; transition:all 0.2s;">
+              <a href="{{ .Page.RelPermalink }}" class="tag-link" style="display:inline-flex; align-items:center; padding:0.3rem 0.6rem; background:#fff; color:#555; text-decoration:none; border:1px solid #e0e0e0; border-radius:16px; font-size:0.75rem; font-weight:400; transition:all 0.2s;">
                 {{ .Page.Title }}
-                <span class="tag-count" style="margin-left:0.4rem; background:#f0f0f0; color:#666; padding:0.1rem 0.4rem; border-radius:10px; font-size:0.7rem;">{{ .Count }}</span>
+                <span class="tag-count" style="margin-left:0.3rem; background:#f0f0f0; color:#666; padding:0.1rem 0.3rem; border-radius:8px; font-size:0.65rem;">{{ .Count }}</span>
               </a>
             {{ end }}
           </div>
@@ -521,14 +535,19 @@
             // Update all links in main content
             const mainLinks = main.querySelectorAll('a');
             mainLinks.forEach(link => {
-              link.style.color = '#88c999 !important';
+              // Check if it's a post title link (in h1, h2, h3)
+              if (link.closest('h1') || link.closest('h2') || link.closest('h3')) {
+                link.style.color = '#00D4AA !important';
+              } else {
+                link.style.color = '#88c999 !important';
+              }
             });
             
             // Update all other links on page (universal override)
             const allLinks = document.querySelectorAll('a');
             allLinks.forEach(link => {
               // Skip navigation and RSS links which have their own handling
-              if (!link.closest('nav') && !link.href.includes('index.xml') && !link.closest('aside')) {
+              if (!link.closest('nav') && !link.href.includes('feed.xml') && !link.closest('aside')) {
                 link.style.color = '#88c999';
               }
             });
@@ -562,33 +581,39 @@
             h.style.color = '#ffffff';
           });
           
-          // Update sidebar paragraphs
+          // Update sidebar paragraphs for better contrast
           const sidebarPs = document.querySelectorAll('aside p');
           sidebarPs.forEach(p => {
-            p.style.color = '#d0d0d0';
+            p.style.color = '#e0e0e0';
           });
           
           // Update links
           const links = document.querySelectorAll('aside a');
           links.forEach(link => {
-            if (link.href.includes('index.xml')) {
+            if (link.href.includes('feed.xml')) {
               // RSS button
-              link.style.border = '1px solid #555';
-              link.style.color = '#e0e0e0';
+              link.style.setProperty('border', '1px solid #555', 'important');
+              link.style.setProperty('color', '#fff', 'important');
             } else if (link.href.includes('/tags/')) {
               // Tag links
               if (link.querySelector('span')) {
                 // Tag buttons with counts
-                link.style.background = '#333';
-                link.style.border = '1px solid #555';
-                link.style.color = '#e0e0e0';
+                link.style.setProperty('background', '#333', 'important');
+                link.style.setProperty('border', '1px solid #555', 'important');
+                link.style.setProperty('color', '#fff', 'important');
+                // Update tag count styling
+                const tagCount = link.querySelector('.tag-count');
+                if (tagCount) {
+                  tagCount.style.setProperty('background', '#404040', 'important');
+                  tagCount.style.setProperty('color', '#fff', 'important');
+                }
               } else {
                 // "View all tags" link
-                link.style.color = '#e0e0e0';
+                link.style.setProperty('color', '#fff', 'important');
               }
             } else {
               // Navigation links
-              link.style.color = '#e0e0e0';
+              link.style.setProperty('color', '#fff', 'important');
             }
           });
           
@@ -672,14 +697,19 @@
             // Reset all links in main content
             const mainLinks = main.querySelectorAll('a');
             mainLinks.forEach(link => {
-              link.style.color = '#555';
+              // Check if it's a post title link (in h1, h2, h3)
+              if (link.closest('h1') || link.closest('h2') || link.closest('h3')) {
+                link.style.color = '#00A19B !important';
+              } else {
+                link.style.color = '#555';
+              }
             });
             
             // Reset all other links on page (universal override)
             const allLinks = document.querySelectorAll('a');
             allLinks.forEach(link => {
               // Skip navigation and RSS links which have their own handling
-              if (!link.closest('nav') && !link.href.includes('index.xml') && !link.closest('aside')) {
+              if (!link.closest('nav') && !link.href.includes('feed.xml') && !link.closest('aside')) {
                 link.style.color = '#555';
               }
             });
@@ -722,7 +752,7 @@
           // Reset links
           const links = document.querySelectorAll('aside a');
           links.forEach(link => {
-            if (link.href.includes('index.xml')) {
+            if (link.href.includes('feed.xml')) {
               // RSS button
               link.style.border = '1px solid #ddd';
               link.style.color = '#555';
@@ -733,6 +763,12 @@
                 link.style.background = '#fff';
                 link.style.border = '1px solid #e0e0e0';
                 link.style.color = '#555';
+                // Reset tag count styling
+                const tagCount = link.querySelector('.tag-count');
+                if (tagCount) {
+                  tagCount.style.background = '#f0f0f0';
+                  tagCount.style.color = '#666';
+                }
               } else {
                 // "View all tags" link
                 link.style.color = '#666';
@@ -820,15 +856,23 @@
         );
         
         if (filteredPosts.length > 0) {
+          const isDark = document.body.style.background === '#1a1a1a';
+          const bgColor = isDark ? '#333' : '#fff';
+          const borderColor = isDark ? '#555' : '#eee';
+          const titleColor = isDark ? '#f0f0f0' : '#333';
+          const textColor = isDark ? '#cccccc' : '#666';
+          
           searchResultsList.innerHTML = filteredPosts.slice(0, 5).map(post => `
-            <div style="margin-bottom:1rem; padding:0.8rem; background:#fff; border-radius:4px; border:1px solid #eee;">
-              <a href="${post.url}" style="color:#333; text-decoration:none; font-weight:500; font-size:0.9rem; display:block; margin-bottom:0.3rem;">${post.title}</a>
-              <p style="margin:0; color:#666; font-size:0.8rem; line-height:1.4;">${post.summary.slice(0, 100)}${post.summary.length > 100 ? '...' : ''}</p>
+            <div style="margin-bottom:1rem; padding:0.8rem; background:${bgColor}; border-radius:4px; border:1px solid ${borderColor};">
+              <a href="${post.url}" style="color:${titleColor}; text-decoration:none; font-weight:500; font-size:0.9rem; display:block; margin-bottom:0.3rem;">${post.title}</a>
+              <p style="margin:0; color:${textColor}; font-size:0.8rem; line-height:1.4;">${post.summary.slice(0, 100)}${post.summary.length > 100 ? '...' : ''}</p>
             </div>
           `).join('');
           searchResults.style.display = 'block';
         } else {
-          searchResultsList.innerHTML = '<div style="padding:0.8rem; color:#999; font-size:0.85rem;">No results found</div>';
+          const isDark = document.body.style.background === '#1a1a1a';
+          const textColor = isDark ? '#cccccc' : '#999';
+          searchResultsList.innerHTML = `<div style="padding:0.8rem; color:${textColor}; font-size:0.85rem;">No results found</div>`;
           searchResults.style.display = 'block';
         }
       });

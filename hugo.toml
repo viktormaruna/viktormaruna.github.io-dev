@@ -15,6 +15,15 @@ disableKinds = ["sitemap"]
 # Enable tag and category pages
 enableTaxonomyPages = true
 
+# RSS Feed configuration
+[outputFormats]
+  [outputFormats.RSS]
+    mediatype = "application/rss"
+    baseName = "feed"
+
+[outputs]
+  home = ["HTML", "RSS"]
+
 [params]
   description = "Cloud, Data & AI"
   

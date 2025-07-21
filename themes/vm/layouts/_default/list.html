@@ -15,7 +15,10 @@
           </span>
         {{ end }}
       </div>
-      {{ with .Params.summary }}<p style="margin:0.5rem 0 0; color:#555;">{{ . }}</p>{{ end }}
+      {{ $firstPara := index (split (.Content | plainify) "\n\n") 0 }}
+      {{ if $firstPara }}
+        <p style="margin:0.5rem 0 0; color:#555;">{{ $firstPara | truncate 200 }}</p>
+      {{ end }}
     </li>
     {{ end }}
   </ul>
