@@ -16,5 +16,37 @@
           crossorigin="anonymous"
           async>
   </script>
+  <script>
+    // Update Giscus theme when site theme changes
+    function updateGiscusTheme() {
+      const theme = localStorage.getItem('theme') || 'light';
+      const giscusTheme = theme === 'dark' ? 'dark' : 'light';
+      
+      // Wait for giscus to load and then update theme
+      const giscusFrame = document.querySelector('iframe[src*="giscus"]');
+      if (giscusFrame) {
+        const message = {
+          setConfig: {
+            theme: giscusTheme
+          }
+        };
+        giscusFrame.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+    }
+    
+    // Apply theme immediately when comments load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set initial theme
+      setTimeout(updateGiscusTheme, 1000);
+      
+      // Listen for theme toggle clicks
+      const themeToggle = document.getElementById('theme-toggle');
+      if (themeToggle) {
+        themeToggle.addEventListener('click', function() {
+          setTimeout(updateGiscusTheme, 100);
+        });
+      }
+    });
+  </script>
 </div>
 {{ end }}

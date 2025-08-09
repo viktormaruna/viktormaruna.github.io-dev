@@ -29,10 +29,10 @@ enableTaxonomyPages = true
   
   [params.giscus]
     enable = true
-    repo = "your-username/your-repo"
-    repoId = "your-repo-id"
+    repo = "viktormaruna/viktormaruna.github.io-dev"
+    repoId = "R_kgDOPMfe-Q"
     category = "General"
-    categoryId = "your-category-id"
+    categoryId = "DIC_kwDOPMfe-c4Ct-5F"
 
 [caches]
   [caches.images]
