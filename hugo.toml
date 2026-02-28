@@ -1,17 +1,17 @@
 baseURL = 'https://dev.viktormaruna.com/'
 languageCode = 'en-us'
 title = 'Viktor Maruna — Cloud, Data & AI'
+enableRobotsTXT = false
 
 theme = 'vm'
 
 [pagination]
   pagerSize = 10
 
-# Enable tags taxonomy
 [taxonomies]
   tag = "tags"
+  category = ""
 
-# Enable tag and category pages
 # RSS Feed configuration
 [outputFormats]
   [outputFormats.RSS]
@@ -23,9 +23,14 @@ theme = 'vm'
 
 [params]
   description = "Cloud, Data & AI"
-  
+
+  [params.author]
+    name = "Viktor Maruna"
+    url = "https://viktormaruna.com"
+    linkedin = "https://linkedin.com/in/viktormaruna/"
+    github = "https://github.com/viktormaruna"
+
   [params.giscus]
-    enable = true
     repo = "viktormaruna/viktormaruna.github.io-dev"
     repoId = "R_kgDOPMfe-Q"
     category = "General"
@@ -40,6 +45,14 @@ theme = 'vm'
   codeFences  = true
   guessSyntax = true
   noClasses   = false
+
+[imaging]
+  quality = 85
+  resampleFilter = "Lanczos"
+
+  [imaging.exif]
+    disableDate    = true
+    disableLatLong = true
 
 [caches]
   [caches.images]

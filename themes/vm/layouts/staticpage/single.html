@@ -1,8 +1,52 @@
 {{ define "main" }}
+  <style>
+    .post-content li em {
+      font-size: 0.72em;
+      font-style: normal;
+      font-weight: 400;
+      color: var(--muted);
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 1px 8px;
+      margin-left: 5px;
+      vertical-align: middle;
+      white-space: nowrap;
+      letter-spacing: 0.01em;
+    }
+    .about-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 1.75rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .about-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 2px solid var(--border);
+    }
+    .about-header-text h1 { margin: 0 0 .25rem; }
+    .about-header-text p { margin: 0; color: var(--muted); font-size: .925rem; }
+    @media (max-width: 480px) {
+      .about-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    }
+  </style>
   <article>
-    <header class="post-header">
-      <h1>{{ .Title }}</h1>
-    </header>
+    <div class="about-header">
+      <img src="/avatar.jpg" alt="Viktor Maruna" class="about-avatar">
+      <div class="about-header-text">
+        <h1>{{ .Title }}</h1>
+        <p>Data Engineer · Cloud Solution Architect · Microsoft Fabric & Azure Databricks</p>
+      </div>
+    </div>
     <div class="post-content">{{ .Content }}</div>
+    <div class="bmc-wrap">
+      <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="viktormaruna" data-color="#000000" data-emoji="" data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#ffffff" data-font-color="#ffffff" data-coffee-color="#FFDD00"></script>
+    </div>
   </article>
 {{ end }}

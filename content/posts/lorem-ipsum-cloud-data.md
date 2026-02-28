@@ -1,7 +1,7 @@
 ---
 title: "Cloud Data Pipelines: A Lorem Ipsum Deep Dive"
 date: 2025-10-15T09:00:00Z
-draft: false
+draft: true
 description: "Exploring cloud-native data pipeline patterns with Lorem Ipsum placeholder content for demonstration purposes."
 tags: ["cloud", "data", "pipelines"]
 ---

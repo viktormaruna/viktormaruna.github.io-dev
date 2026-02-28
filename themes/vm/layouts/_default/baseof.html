@@ -8,10 +8,10 @@
   <title>{{ if .IsHome }}{{ .Site.Title }} - {{ .Site.Params.description }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
   <meta name="description" content="{{ if .Description }}{{ .Description }}{{ else if .Summary }}{{ .Summary | truncate 160 }}{{ else }}{{ .Site.Params.description }}{{ end }}">
   <meta name="keywords" content="{{ if .Params.tags }}{{ delimit .Params.tags ", " }}{{ end }}">
-  <meta name="author" content="Viktor Maruna">
+  <meta name="author" content="{{ .Site.Params.author.name }}">
   
   <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+  <meta property="og:type" content="{{ if and .IsPage (eq .Section "posts") }}article{{ else }}website{{ end }}">
   <meta property="og:url" content="{{ .Permalink }}">
   <meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
   <meta property="og:description" content="{{ if .Description }}{{ .Description }}{{ else if .Summary }}{{ .Summary | truncate 160 }}{{ else }}{{ .Site.Params.description }}{{ end }}">
@@ -25,11 +25,11 @@
   <meta property="twitter:description" content="{{ if .Description }}{{ .Description }}{{ else if .Summary }}{{ .Summary | truncate 160 }}{{ else }}{{ .Site.Params.description }}{{ end }}">
   {{ if .Params.image }}<meta property="twitter:image" content="{{ .Params.image | absURL }}">{{ else }}<meta property="twitter:image" content="{{ "/og-default.png" | absURL }}">{{ end }}
   
-  <!-- Article specific meta tags -->
-  {{ if .IsPage }}
+  <!-- Article specific meta tags (posts only) -->
+  {{ if and .IsPage (eq .Section "posts") }}
   <meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
   <meta property="article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">
-  <meta property="article:author" content="Viktor Maruna">
+  <meta property="article:author" content="{{ .Site.Params.author.name }}">
   {{ with .Params.tags }}{{ range . }}<meta property="article:tag" content="{{ . }}">{{ end }}{{ end }}
   {{ end }}
   
@@ -56,23 +56,23 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "{{ if .IsHome }}WebSite{{ else if .IsPage }}BlogPosting{{ else }}CollectionPage{{ end }}",
+    "@type": "{{ if .IsHome }}WebSite{{ else if and .IsPage (eq .Section "posts") }}BlogPosting{{ else if .IsPage }}WebPage{{ else }}CollectionPage{{ end }}",
     "name": "{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}",
     "url": "{{ .Permalink }}",
     "description": "{{ if .Description }}{{ .Description }}{{ else if .Summary }}{{ .Summary | truncate 160 }}{{ else }}{{ .Site.Params.description }}{{ end }}",
-    {{ if .IsPage }}
+    {{ if and .IsPage (eq .Section "posts") }}
     "headline": "{{ .Title }}",
     "datePublished": "{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}",
     "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}",
     "author": {
       "@type": "Person",
-      "name": "Viktor Maruna",
-      "url": "https://viktormaruna.com"
+      "name": "{{ .Site.Params.author.name }}",
+      "url": "{{ .Site.Params.author.url }}"
     },
     "publisher": {
       "@type": "Person",
-      "name": "Viktor Maruna",
-      "url": "https://viktormaruna.com"
+      "name": "{{ .Site.Params.author.name }}",
+      "url": "{{ .Site.Params.author.url }}"
     },
     {{ end }}
     "inLanguage": "en-US"
@@ -94,9 +94,10 @@
     })();
   </script>
 
-  <!-- Inter font -->
+  <!-- Inter font (preload for LCP) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <style>
@@ -157,7 +158,7 @@
       border-bottom: 1px solid var(--border);
     }
     .site-nav > div {
-      max-width: 720px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 0 1.5rem;
       height: 56px;
@@ -233,14 +234,14 @@
 
     /* ── Main ────────────────────────────────────────────────── */
     main {
-      max-width: 720px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 2.5rem 1.5rem 5rem;
     }
 
     /* ── Footer ──────────────────────────────────────────────── */
     .site-footer {
-      max-width: 720px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 1.5rem 1.5rem 2.5rem;
       border-top: 1px solid var(--border);
@@ -769,6 +770,7 @@
     .btn-home:hover { background: var(--accent-h); color: #fff; text-decoration: none; }
     [data-theme="dark"] .btn-home { color: #111111; }
     [data-theme="dark"] .btn-home:hover { color: #111111; }
+    .bmc-wrap { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
   </style>
 
   <!-- Webmention -->
@@ -846,7 +848,7 @@
   </main>
 
   <footer class="site-footer">
-    <p>&copy; {{ now.Year }} <a href="https://viktormaruna.com">Viktor Maruna</a> &middot; Employee of <a href="https://adastracorp.com/">Adastra</a>. Content is personal.</p>
+    <p>&copy; {{ now.Year }} <a href="{{ .Site.Params.author.url }}">{{ .Site.Params.author.name }}</a> &middot; Employee of <a href="https://adastracorp.com/">Adastra</a>. Content is personal.</p>
     <p class="footer-license">
       Blog content: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>
       &middot; Code snippets: <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener">MIT</a>
@@ -889,12 +891,21 @@
     // ── Reading progress bar ──────────────────────────────────
     (function() {
       var bar = document.getElementById('reading-progress');
-      if (!bar || !document.querySelector('.post-content')) return;
+      var content = document.querySelector('.post-content');
+      if (!bar || !content) return;
       function update() {
+        var rect = content.getBoundingClientRect();
+        var start = content.offsetTop;
+        var end = start + content.offsetHeight;
         var scrolled = window.scrollY || document.documentElement.scrollTop;
-        var total = document.documentElement.scrollHeight - window.innerHeight;
-        var pct = total > 0 ? Math.min(100, (scrolled / total) * 100) : 0;
-        bar.style.width = pct + '%';
+        var viewH = window.innerHeight;
+        var pct = 0;
+        if (scrolled + viewH >= end) {
+          pct = 100;
+        } else if (scrolled > start) {
+          pct = ((scrolled - start) / (end - viewH - start)) * 100;
+        }
+        bar.style.width = Math.min(100, Math.max(0, pct)) + '%';
       }
       window.addEventListener('scroll', update, { passive: true });
       update();
