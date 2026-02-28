@@ -1,20 +1,16 @@
 baseURL = 'https://dev.viktormaruna.com/'
 languageCode = 'en-us'
-title = 'dev.viktormaruna.com'
+title = 'Viktor Maruna — Cloud, Data & AI'
 
 theme = 'vm'
 
-# Disable unnecessary page kinds to reduce page count
-disableKinds = ["sitemap"]
+paginate = 10
 
 # Enable tags taxonomy
 [taxonomies]
   tag = "tags"
-  category = "categories"
 
 # Enable tag and category pages
-enableTaxonomyPages = true
-
 # RSS Feed configuration
 [outputFormats]
   [outputFormats.RSS]
@@ -22,7 +18,7 @@ enableTaxonomyPages = true
     baseName = "feed"
 
 [outputs]
-  home = ["HTML", "RSS"]
+  home = ["HTML", "RSS", "JSON"]
 
 [params]
   description = "Cloud, Data & AI"
@@ -33,6 +29,16 @@ enableTaxonomyPages = true
     repoId = "R_kgDOPMfe-Q"
     category = "General"
     categoryId = "DIC_kwDOPMfe-c4Ct-5F"
+
+[markup.tableOfContents]
+  startLevel = 2
+  endLevel   = 4
+  ordered    = false
+
+[markup.highlight]
+  codeFences  = true
+  guessSyntax = true
+  noClasses   = false
 
 [caches]
   [caches.images]

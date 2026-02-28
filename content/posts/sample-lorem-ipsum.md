@@ -3,7 +3,6 @@ title: "Sample Lorem Ipsum Article"
 date: 2025-08-09T10:00:00Z
 draft: false
 description: "A sample article with Lorem Ipsum content for demonstration purposes"
-categories: ["Sample"]
 tags: ["lorem", "ipsum", "sample"]
 ---
 

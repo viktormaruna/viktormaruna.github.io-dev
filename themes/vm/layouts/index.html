@@ -1,53 +1,55 @@
 {{ define "main" }}
-  <div style="text-align:center; margin-bottom:3rem;">
-    <h2 style="font-size:1.5rem; font-weight:400; color:#555; margin:0;">Latest Posts</h2>
-  </div>
-  
-  <ul style="list-style:none; padding:0;">
-    {{ range .Site.RegularPages.ByDate.Reverse }}
-    <li style="margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid #f5f5f5;">
-      <h3 style="margin:0 0 0.5rem 0;">
-        <a href="{{ .RelPermalink }}" style="font-size:1.3rem; color:#222; text-decoration:none; font-weight:500;">{{ .Title }}</a>
-      </h3>
-      <div style="color:#888; font-size:0.9rem; margin-bottom:1rem;">
-        {{ .Date.Format "Jan 2, 2006" }}
-        {{ with .Params.tags }}
-          <span style="margin-left:1rem;">
-            {{ range $index, $tag := . }}
-              {{ if $index }} • {{ end }}
-              <a href="{{ "/tags/" | relURL }}{{ $tag | urlize }}" style="color:#999; text-decoration:none; font-size:0.85rem;">#{{ $tag }}</a>
-            {{ end }}
-          </span>
-        {{ end }}
+  {{- $paginator := .Paginate (where .Site.RegularPages "Section" "posts") -}}
+  <div class="home-intro">
+    <img src="/avatar.jpg" alt="Viktor Maruna" class="home-intro-avatar">
+    <div class="home-intro-text">
+      <h1 class="home-intro-name">Viktor Maruna</h1>
+      <p class="home-intro-bio">Data Engineer &amp; Solution Architect at <a href="https://adastracorp.com/" target="_blank" rel="noopener">Adastra</a>. Writing about cloud architecture, data platforms, and AI.</p>
+      <div class="home-intro-links">
+        <a href="https://www.linkedin.com/in/viktormaruna/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/viktormaruna" target="_blank" rel="noopener">GitHub</a>
       </div>
-      {{ with .Summary }}
-        <p style="margin:0; color:#555; line-height:1.6;">{{ . }}</p>
-      {{ end }}
+    </div>
+  </div>
+  <p class="page-title">Writing</p>
+  <ul class="post-list">
+    {{ range $paginator.Pages }}
+    <li class="post-list-item">
+      <div class="post-meta">
+        <time><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> {{ .Date.Format "Jan 2, 2006" }}</time>
+        <span>&middot;</span>
+        <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> {{ .ReadingTime }} min read</span>
+        {{ with .Params.tags }}<span>&middot;</span>{{ range . }}<span class="post-tag"><a href="{{ "/tags/" | relURL }}{{ . | urlize }}">{{ . }}</a></span>{{ end }}{{ end }}
+      </div>
+      <div class="post-list-title">
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      </div>
+      {{ with (or .Description (.Summary | plainify | truncate 160)) }}<p class="post-summary">{{ . }}</p>{{ end }}
     </li>
     {{ end }}
   </ul>
-{{ end }}
 
-{{ define "sidebar" }}
-  {{ if .Site.Taxonomies.tags }}
-  <div style="background:#f9f9f9; padding:1.5rem; border-radius:8px; margin-bottom:2rem;">
-    <h3 style="margin:0 0 1.5rem 0; font-size:1.1rem; font-weight:500; color:#333;">Browse by Tags</h3>
-    
-    <div style="display:flex; flex-wrap:wrap; gap:0.6rem;">
-      {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
-        {{ if ge (len $taxonomy.Pages) 1 }}
-        <a href="{{ "/tags/" | relURL }}{{ $name | urlize }}" 
-           style="display:inline-block; padding:0.4rem 0.8rem; background:#fff; color:#555; text-decoration:none; border-radius:15px; font-size:0.85rem; transition:all 0.2s; border:1px solid #e8e8e8; box-shadow:0 1px 2px rgba(0,0,0,0.05);">
-          {{ $name }}
-          <span style="color:#888; font-size:0.75rem; margin-left:0.2rem;">({{ len $taxonomy.Pages }})</span>
-        </a>
-        {{ end }}
+  {{ if gt $paginator.TotalPages 1 }}
+  <nav class="pagination" aria-label="Post pagination">
+    {{ if $paginator.HasPrev }}
+      <a href="{{ $paginator.Prev.URL }}">&larr;</a>
+    {{ else }}
+      <span class="page-disabled">&larr;</span>
+    {{ end }}
+
+    {{ range $paginator.Pagers }}
+      {{ if eq . $paginator }}
+        <span class="page-current">{{ .PageNumber }}</span>
+      {{ else }}
+        <a href="{{ .URL }}">{{ .PageNumber }}</a>
       {{ end }}
-    </div>
-    
-    <div style="margin-top:1.5rem;">
-      <a href="{{ "/tags/" | relURL }}" style="color:#666; text-decoration:none; font-size:0.85rem; border-bottom:1px solid #ccc;">View all tags</a>
-    </div>
-  </div>
+    {{ end }}
+
+    {{ if $paginator.HasNext }}
+      <a href="{{ $paginator.Next.URL }}">&rarr;</a>
+    {{ else }}
+      <span class="page-disabled">&rarr;</span>
+    {{ end }}
+  </nav>
   {{ end }}
 {{ end }}

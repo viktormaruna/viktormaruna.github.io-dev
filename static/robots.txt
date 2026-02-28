@@ -1,7 +1,6 @@
 User-agent: *
 Allow: /
 
-# Allow AI crawlers and training bots
 User-agent: GPTBot
 Allow: /
 
@@ -35,8 +34,6 @@ Allow: /
 User-agent: DuckDuckBot
 Allow: /
 
-# Sitemap location
-Sitemap: {{ .Site.BaseURL }}sitemap.xml
+Sitemap: https://dev.viktormaruna.com/sitemap.xml
 
-# Crawl delay (optional - be respectful)
 Crawl-delay: 1

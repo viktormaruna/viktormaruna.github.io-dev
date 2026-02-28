@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fefcf8"/>
+      <stop offset="100%" style="stop-color:#f0ede8"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <!-- Accent bar -->
+  <rect width="1200" height="6" fill="#0d9488"/>
+  <!-- Border -->
+  <rect x="60" y="60" width="1080" height="510" rx="16" fill="none" stroke="#e7e4df" stroke-width="2"/>
+  <!-- Site title -->
+  <text x="120" y="200" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="32" font-weight="600" fill="#78716c" letter-spacing="0.05em">dev.viktormaruna.com</text>
+  <!-- Main title (placeholder - per-post OG images would override) -->
+  <text x="120" y="300" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="60" font-weight="700" fill="#1c1917" letter-spacing="-0.02em">Cloud, Data &amp; AI</text>
+  <!-- Subtitle -->
+  <text x="120" y="380" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="28" fill="#78716c">Technical insights by Viktor Maruna</text>
+  <!-- Accent line -->
+  <rect x="120" y="440" width="80" height="4" rx="2" fill="#0d9488"/>
+</svg>

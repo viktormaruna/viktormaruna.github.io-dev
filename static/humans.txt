@@ -1,0 +1,25 @@
+/* humans.txt — dev.viktormaruna.com */
+
+/* TEAM */
+Viktor Maruna
+  Role: Author, Data & Cloud Engineer
+  Location: Europe
+  LinkedIn: https://www.linkedin.com/in/viktormaruna/
+  Site: https://viktormaruna.com
+
+/* SITE */
+Last update: 2026-02-27
+Language: English
+Doctype: HTML5
+IDE: VS Code
+
+/* TECHNOLOGY */
+Static site generator: Hugo v0.157.0
+Theme: Custom (vm), built from scratch
+Hosting: GitHub Pages
+Domain: dev.viktormaruna.com
+Comments: Giscus
+Analytics: Microsoft Clarity
+
+/* STANDARDS */
+HTML5, CSS3, Vanilla JS — no frameworks

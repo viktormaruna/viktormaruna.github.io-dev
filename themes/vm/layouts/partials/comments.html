@@ -1,6 +1,5 @@
 {{ if .Site.Params.giscus.enable }}
-<div style="margin-top:3rem; padding-top:2rem; border-top:1px solid #f0f0f0;">
-  <h4 style="margin:0 0 1.5rem 0; font-size:1.1rem; color:#555; font-weight:500;">Comments</h4>
+<div style="margin-top:3rem; padding-top:2rem; border-top:1px solid var(--border);">
   <script src="https://giscus.app/client.js"
           data-repo="{{ .Site.Params.giscus.repo }}"
           data-repo-id="{{ .Site.Params.giscus.repoId }}"
@@ -17,35 +16,18 @@
           async>
   </script>
   <script>
-    // Update Giscus theme when site theme changes
-    function updateGiscusTheme() {
-      const theme = localStorage.getItem('theme') || 'light';
-      const giscusTheme = theme === 'dark' ? 'dark' : 'light';
-      
-      // Wait for giscus to load and then update theme
-      const giscusFrame = document.querySelector('iframe[src*="giscus"]');
-      if (giscusFrame) {
-        const message = {
-          setConfig: {
-            theme: giscusTheme
-          }
-        };
-        giscusFrame.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+    function syncGiscusTheme() {
+      var theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+      var frame = document.querySelector('iframe[src*="giscus"]');
+      if (frame) {
+        frame.contentWindow.postMessage({ giscus: { setConfig: { theme: theme } } }, 'https://giscus.app');
       }
     }
-    
-    // Apply theme immediately when comments load
     document.addEventListener('DOMContentLoaded', function() {
-      // Set initial theme
-      setTimeout(updateGiscusTheme, 1000);
-      
-      // Listen for theme toggle clicks
-      const themeToggle = document.getElementById('theme-toggle');
-      if (themeToggle) {
-        themeToggle.addEventListener('click', function() {
-          setTimeout(updateGiscusTheme, 100);
-        });
-      }
+      setTimeout(syncGiscusTheme, 1000);
+      document.getElementById('theme-toggle').addEventListener('click', function() {
+        setTimeout(syncGiscusTheme, 100);
+      });
     });
   </script>
 </div>

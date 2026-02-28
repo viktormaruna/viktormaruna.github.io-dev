@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,14 +16,14 @@
   <meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
   <meta property="og:description" content="{{ if .Description }}{{ .Description }}{{ else if .Summary }}{{ .Summary | truncate 160 }}{{ else }}{{ .Site.Params.description }}{{ end }}">
   <meta property="og:site_name" content="{{ .Site.Title }}">
-  {{ if .Params.image }}<meta property="og:image" content="{{ .Params.image | absURL }}">{{ end }}
+  {{ if .Params.image }}<meta property="og:image" content="{{ .Params.image | absURL }}">{{ else }}<meta property="og:image" content="{{ "/og-default.png" | absURL }}">{{ end }}
   
   <!-- Twitter Card -->
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="{{ .Permalink }}">
   <meta property="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
   <meta property="twitter:description" content="{{ if .Description }}{{ .Description }}{{ else if .Summary }}{{ .Summary | truncate 160 }}{{ else }}{{ .Site.Params.description }}{{ end }}">
-  {{ if .Params.image }}<meta property="twitter:image" content="{{ .Params.image | absURL }}">{{ end }}
+  {{ if .Params.image }}<meta property="twitter:image" content="{{ .Params.image | absURL }}">{{ else }}<meta property="twitter:image" content="{{ "/og-default.png" | absURL }}">{{ end }}
   
   <!-- Article specific meta tags -->
   {{ if .IsPage }}
@@ -79,815 +79,825 @@
   }
   </script>
   
-  <link rel="stylesheet" href="/css/main.css">
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="{{ "/favicon.svg" | relURL }}">
+
+  <!-- RSS Autodiscovery -->
+  <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" href="{{ "/feed.xml" | absURL }}">
+
+  <!-- Prevent flash of wrong theme -->
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme') ||
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
   <style>
-    /* Petronas teal titles for all page types */
-    .petronas-title, .petronas-title a {
-      color: #00A19B !important;
+    /* ── Design tokens ───────────────────────────────────────── */
+    :root {
+      --bg:         #ffffff;
+      --fg:         #111111;
+      --muted:      #737373;
+      --faint:      #d4d4d4;
+      --accent:     #e11d48;
+      --accent-h:   #be123c;
+      --border:     #e5e5e5;
+      --code-bg:    #fafafa;
+      --nav-bg:     rgba(255,255,255,0.88);
+      --selection:  #fecdd3;
+      --font:       'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono:  'JetBrains Mono', ui-monospace, 'Fira Code', monospace;
     }
-    
-    .petronas-title a:hover {
-      color: #008B85 !important;
+    [data-theme="dark"] {
+      --bg:         #0a0a0a;
+      --fg:         #e5e5e5;
+      --muted:      #737373;
+      --faint:      #262626;
+      --accent:     #fb7185;
+      --accent-h:   #fda4af;
+      --border:     #262626;
+      --code-bg:    #141414;
+      --nav-bg:     rgba(10,10,10,0.88);
+      --selection:  #881337;
     }
-    
-    /* Main content typography alignment with sidebar */
+
+    ::selection { background: var(--selection); }
+
+    /* ── Reset ───────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font);
+      font-feature-settings: 'cv11', 'ss01';
+      line-height: 1.65;
+      transition: background .2s, color .2s;
+      border-top: 3px solid var(--accent);
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-h); text-decoration: underline; }
+    img { max-width: 100%; display: block; }
+
+    /* ── Nav ─────────────────────────────────────────────────── */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--nav-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .site-nav > div {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .site-nav-brand {
+      font-size: .9rem;
+      font-weight: 700;
+      color: var(--fg);
+      text-decoration: none;
+      letter-spacing: -.02em;
+      white-space: nowrap;
+    }
+    .site-nav-brand:hover { color: var(--accent); text-decoration: none; }
+    .site-nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .site-nav-links a {
+      font-size: .8rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: .01em;
+      transition: color .15s;
+      display: inline-flex;
+      align-items: center;
+      gap: .3em;
+    }
+    .site-nav-links a:hover { color: var(--fg); text-decoration: none; }
+    .site-nav-links a svg { opacity: .7; flex-shrink: 0; }
+    .theme-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--muted);
+      padding: 4px;
+      line-height: 1;
+      margin-left: .25rem;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      transition: color .2s, background .2s;
+    }
+    .theme-btn:hover { color: var(--accent); background: var(--border); }
+    .theme-btn svg { transition: transform .35s cubic-bezier(.34,1.56,.64,1); }
+    .theme-btn:hover svg { transform: rotate(20deg) scale(1.15); }
+    .theme-btn .icon-sun  { display: none; }
+    [data-theme="dark"] .theme-btn .icon-moon { display: none; }
+    [data-theme="dark"] .theme-btn .icon-sun  { display: block; }
+
+    /* ── Main ────────────────────────────────────────────────── */
     main {
-      font-family: sans-serif;
-      line-height: 1.5;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 5rem;
     }
-    
+
+    /* ── Footer ──────────────────────────────────────────────── */
+    .site-footer {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 1.5rem 1.5rem 2.5rem;
+      border-top: 1px solid var(--border);
+      font-size: .825rem;
+      color: var(--muted);
+    }
+    .site-footer a { color: var(--muted); }
+    .site-footer a:hover { color: var(--fg); text-decoration: none; }
+    .footer-license { margin-top: .25rem; font-size: .775rem; opacity: .75; }
+
+    /* ── Typography ──────────────────────────────────────────── */
     main h1 {
-      font-size: 1.8rem;
-      font-weight: 500;
-      color: #00A19B;
-      margin: 0 0 1.5rem 0;
-      line-height: 1.3;
+      font-size: 1.75rem;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -.02em;
+      color: var(--fg);
     }
-    
     main h2 {
-      font-size: 1.4rem;
-      font-weight: 500;
-      color: #333;
-      margin: 2rem 0 1rem 0;
-      line-height: 1.3;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 2rem 0 .75rem;
+      color: var(--fg);
     }
-    
     main h3 {
-      font-size: 1.2rem;
-      font-weight: 500;
-      color: #333;
-      margin: 1.5rem 0 0.8rem 0;
-      line-height: 1.3;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin: 1.5rem 0 .5rem;
+      color: var(--fg);
     }
-    
-    main h4 {
-      font-size: 1.1rem;
-      font-weight: 500;
-      color: #333;
-      margin: 1.2rem 0 0.6rem 0;
-      line-height: 1.3;
-    }
-    
-    main h5, main h6 {
+    main h4, main h5, main h6 {
       font-size: 1rem;
-      font-weight: 500;
-      color: #333;
-      margin: 1rem 0 0.5rem 0;
-      line-height: 1.3;
+      font-weight: 600;
+      margin: 1.25rem 0 .4rem;
+      color: var(--fg);
     }
-    
-    main p {
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin: 0 0 1.2rem 0;
-      color: #444;
-    }
-    
-    main li {
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin: 0.3rem 0;
-      color: #444;
-    }
-    
-    main ul, main ol {
-      margin: 0 0 1.2rem 0;
-      padding-left: 1.5rem;
-    }
-    
+    main p { margin-bottom: 1.25rem; color: var(--fg); }
+    main ul, main ol { padding-left: 1.5rem; margin-bottom: 1.25rem; }
+    main li { margin-bottom: .3rem; }
     main blockquote {
-      font-size: 0.95rem;
-      line-height: 1.6;
+      border-left: 3px solid var(--border);
+      padding: .5rem 0 .5rem 1.25rem;
+      color: var(--muted);
       margin: 1.5rem 0;
-      padding: 1rem 1.5rem;
-      background: #f8f8f8;
-      border-left: 4px solid #ddd;
-      color: #555;
       font-style: italic;
     }
-    
     main code {
-      font-family: 'Courier New', monospace;
-      font-size: 0.85rem;
-      background: #f5f5f5;
-      padding: 0.2rem 0.4rem;
-      border-radius: 3px;
-      color: #666;
+      font-family: var(--font-mono);
+      font-size: .85em;
+      background: var(--code-bg);
+      padding: .15em .4em;
+      border-radius: 4px;
     }
-    
     main pre {
-      font-family: 'Courier New', monospace;
-      font-size: 0.85rem;
-      background: #f5f5f5;
-      padding: 1rem;
-      border-radius: 6px;
+      background: var(--code-bg);
+      padding: 1.25rem;
+      border-radius: 8px;
       overflow-x: auto;
-      margin: 1.2rem 0;
-      color: #666;
+      margin: 1.5rem 0;
+      line-height: 1.5;
+    }
+    main pre code { background: none; padding: 0; font-size: .875rem; }
+    main table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: .9rem;
+    }
+    main th, main td {
+      text-align: left;
+      padding: .5rem .75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    main th { font-weight: 600; color: var(--muted); }
+    main hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+    /* ── Post meta ───────────────────────────────────────────── */
+    .post-meta {
+      font-size: .85rem;
+      color: var(--muted);
+      margin-bottom: .35rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: .35rem;
+    }
+    .post-meta a { color: var(--muted); }
+    .post-meta a:hover { color: var(--fg); text-decoration: none; }
+    .post-tag::before { content: '#'; }
+
+    .post-meta svg { opacity: .65; flex-shrink: 0; }
+
+    /* ── Home intro ──────────────────────────────────────────── */
+    .home-intro { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 1.75rem 0 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+    .home-intro-text { flex: 1; min-width: 0; }
+    .home-intro-name { font-size: 1.35rem; font-weight: 700; letter-spacing: -.025em; margin-bottom: .35rem; }
+    .home-intro-bio { font-size: .9rem; color: var(--muted); line-height: 1.55; margin-bottom: .9rem; }
+    .home-intro-bio a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+    .home-intro-bio a:hover { color: var(--accent); }
+    .home-intro-links { display: flex; gap: .5rem; flex-wrap: wrap; }
+    .home-intro-links a { font-size: .775rem; font-weight: 500; color: var(--muted); border: 1px solid var(--border); border-radius: 5px; padding: .2rem .6rem; text-decoration: none; transition: color .15s, border-color .15s; }
+    .home-intro-links a:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
+    .home-intro-avatar { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 2px solid var(--border); }
+
+    /* ── Post list ───────────────────────────────────────────── */
+    .post-list { list-style: none; }
+    .post-list-item { padding: 1.5rem 0; border-bottom: 1px solid var(--border); }
+    .post-list-item:first-child { border-top: 1px solid var(--border); }
+    .post-list-title {
+      font-size: 1.05rem;
+      font-weight: 500;
+      margin-bottom: .35rem;
+      letter-spacing: -.01em;
+    }
+    .post-list-title a { color: var(--fg); text-decoration: none; }
+    .post-list-title a:hover { color: var(--accent); text-decoration: none; }
+    .post-summary { font-size: .9rem; color: var(--muted); line-height: 1.6; margin-top: .4rem; }
+
+    /* ── Page title ──────────────────────────────────────────── */
+    .page-title {
+      font-size: .75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--accent);
+      margin-bottom: 1.75rem;
+    }
+
+    /* ── Single post ─────────────────────────────────────────── */
+    .post-header { margin-bottom: 2.5rem; }
+    .post-header h1 { margin-bottom: .5rem; }
+    .post-content { font-size: 1rem; line-height: 1.75; }
+    .post-content a { color: var(--accent); }
+    .post-content a:hover { color: var(--accent-h); }
+    .post-tags { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+    .post-tags a {
+      display: inline-block;
+      font-size: .8rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: .2rem .55rem;
+      margin: 0 .3rem .3rem 0;
+    }
+    .post-tags a:hover { color: var(--fg); border-color: var(--muted); text-decoration: none; }
+
+    /* ── Responsive ──────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .site-nav { padding: 1rem; }
+      main { padding: 1.5rem 1rem 3rem; }
+      .site-footer { padding: 1.25rem 1rem 2rem; }
+      .site-nav-links { gap: 1rem; }
+      main h1 { font-size: 1.4rem; }
+      .search-dropdown { width: calc(100vw - 2rem); right: -4rem; }
+    }
+
+    /* ── Search ──────────────────────────────────────────────── */
+    .nav-search { position: relative; }
+    .search-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--muted);
+      padding: 4px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      transition: color .2s, background .2s;
+    }
+    .search-btn:hover { color: var(--accent); background: var(--border); }
+    .search-btn svg { transition: transform .2s; }
+    .search-btn:hover svg { transform: scale(1.1); }
+    .search-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + .75rem);
+      right: 0;
+      width: 320px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.08);
+      overflow: hidden;
+      z-index: 100;
+    }
+    .search-dropdown.open { display: block; }
+    .search-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .75rem 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .search-input-wrap svg { color: var(--muted); flex-shrink: 0; }
+    #search-input {
+      width: 100%;
+      background: none;
+      border: none;
+      outline: none;
+      font-size: .9rem;
+      color: var(--fg);
+      font-family: var(--font);
+    }
+    #search-input::placeholder { color: var(--faint); }
+    .search-results-list { max-height: 320px; overflow-y: auto; }
+    .search-result-item {
+      display: block;
+      padding: .75rem 1rem;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      transition: background .15s;
+    }
+    .search-result-item:last-child { border-bottom: none; }
+    .search-result-item:hover { background: var(--border); text-decoration: none; }
+    .search-result-title { font-size: .9rem; font-weight: 500; color: var(--fg); margin-bottom: .2rem; }
+    .search-result-meta  { font-size: .75rem; color: var(--muted); }
+    .search-empty { padding: 1.25rem 1rem; font-size: .875rem; color: var(--muted); text-align: center; }
+    .search-result-title mark { background: var(--selection); color: var(--fg); border-radius: 2px; padding: 0 1px; }
+
+    /* ── Breadcrumbs ─────────────────────────────────────────── */
+    .breadcrumb {
+      font-size: .8rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: .35rem;
+      flex-wrap: wrap;
+    }
+    .breadcrumb a { color: var(--muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--fg); }
+    .breadcrumb-sep { opacity: .4; }
+
+    /* ── Table of Contents ───────────────────────────────────── */
+    .toc {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .75rem 1.25rem;
+      margin: 0 0 2.5rem 0;
+      font-size: .875rem;
+    }
+    .toc summary {
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      user-select: none;
+    }
+    .toc summary::-webkit-details-marker { display: none; }
+    .toc summary::before { content: '›'; display: inline-block; transition: transform .2s; }
+    .toc[open] summary::before { transform: rotate(90deg); }
+    .toc nav { margin-top: .75rem; }
+    #TableOfContents ul { list-style: none; padding-left: 1rem; margin: 0; }
+    #TableOfContents > ul { padding-left: 0; }
+    #TableOfContents li { margin: .3rem 0; }
+    #TableOfContents a { color: var(--muted); text-decoration: none; }
+    #TableOfContents a:hover { color: var(--accent); }
+
+    /* ── Copy code button ────────────────────────────────────── */
+    .code-wrap { position: relative; }
+    .copy-btn {
+      position: absolute;
+      top: .6rem;
+      right: .6rem;
+      background: var(--border);
+      border: 1px solid transparent;
+      border-radius: 5px;
+      padding: .25rem .5rem;
+      font-size: .75rem;
+      color: var(--muted);
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity .2s, color .15s, background .15s;
+      font-family: var(--font);
       line-height: 1.4;
     }
-    
-    main pre code {
-      background: transparent;
-      padding: 0;
-      border-radius: 0;
+    .code-wrap:hover .copy-btn { opacity: 1; }
+    .copy-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .copy-btn.copied { color: var(--accent); background: var(--selection); opacity: 1; }
+
+    /* ── Prev / Next navigation ──────────────────────────────── */
+    .post-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
     }
-    
-    /* Ensure no blue links anywhere */
-    a, a:link, a:visited, a:hover, a:active {
-      color: #555 !important;
+    .post-nav a {
+      font-size: .875rem;
+      color: var(--muted);
+      text-decoration: none;
+      max-width: 45%;
+      line-height: 1.4;
+      transition: color .15s;
     }
-    
-    /* Post title links should use Petronas color - higher specificity */
-    main h3 a, main h2 a, main h1 a,
-    main h3 a:link, main h2 a:link, main h1 a:link,
-    main h3 a:visited, main h2 a:visited, main h1 a:visited,
-    main h3 a:active, main h2 a:active, main h1 a:active {
-      color: #00A19B !important;
-      text-decoration: none !important;
+    .post-nav a:hover { color: var(--accent); text-decoration: none; }
+    .post-nav-label {
+      display: block;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      margin-bottom: .2rem;
+      opacity: .6;
     }
-    
-    main h3 a:hover, main h2 a:hover, main h1 a:hover {
-      color: #008B85 !important;
+    .post-nav-next { text-align: right; margin-left: auto; }
+
+    /* ── Tag cloud (terms page) ──────────────────────────────── */
+    .tags-page-header { margin-bottom: 2rem; }
+    .tags-page-header .page-title { margin-bottom: .25rem; }
+    .tags-page-meta { font-size: .85rem; color: var(--muted); }
+    .tag-cloud {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+      gap: .875rem;
     }
-    
-    /* Override for specific link types */
-    main a, main a:link, main a:visited, main a:hover, main a:active {
-      color: #555 !important;
-      text-decoration: underline;
-      font-size: inherit;
+    .tag-cloud-item {
+      display: flex;
+      flex-direction: column;
+      gap: .35rem;
+      padding: 1.1rem 1.25rem 1rem;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      text-decoration: none;
+      transition: border-color .2s, background .2s, box-shadow .2s;
     }
-    
-    main a:hover {
-      color: #333 !important;
+    .tag-cloud-item:hover {
+      border-color: var(--accent);
+      background: var(--selection);
+      box-shadow: 0 4px 20px rgba(0,0,0,.07);
+      text-decoration: none;
     }
-    
-    footer a, footer a:link, footer a:visited, footer a:hover, footer a:active {
-      color: #555 !important;
+    .tag-cloud-name {
+      font-size: .925rem;
+      font-weight: 600;
+      color: var(--fg);
+      letter-spacing: -.01em;
     }
-    
-    /* Navigation links hover effects */
-    nav a:hover, nav .nav-link:hover {
-      color: #333 !important;
-      border-bottom-color: #ddd !important;
+    .tag-cloud-name::before {
+      content: '#';
+      color: var(--accent);
+      font-weight: 700;
+      margin-right: 1px;
     }
-    
-    /* Sidebar tag links hover effects */
-    .tag-link:hover {
-      background: #f0f0f0 !important;
-      border-color: #d0d0d0 !important;
-      transform: translateY(-1px) !important;
+    .tag-cloud-count {
+      font-size: .75rem;
+      color: var(--muted);
+      font-weight: 400;
     }
-    
-    /* View all tags link hover effects */
-    aside div > a[href="/tags/"]:hover {
-      color: #555 !important;
-      text-decoration: underline !important;
+
+    /* ── Syntax highlighting (github light) ─────────────────── */
+    .bg { background-color:#f7f7f7; }
+    .chroma { background-color:#f7f7f7;-webkit-text-size-adjust:none; }
+    .chroma .err { color:#f6f8fa;background-color:#82071e }
+    .chroma .lnlinks { outline:none;text-decoration:none;color:inherit }
+    .chroma .lntd { vertical-align:top;padding:0;margin:0;border:0; }
+    .chroma .lntable { border-spacing:0;padding:0;margin:0;border:0; }
+    .chroma .hl { background-color:#dedede }
+    .chroma .lnt,.chroma .ln { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f }
+    .chroma .line { display:flex; }
+    .chroma .k,.chroma .kc,.chroma .kd,.chroma .kn,.chroma .kp,.chroma .kr,.chroma .kt { color:#cf222e }
+    .chroma .na,.chroma .nc,.chroma .nx { color:#1f2328 }
+    .chroma .no,.chroma .nd,.chroma .nt { color:#0550ae }
+    .chroma .ni { color:#6639ba }
+    .chroma .nl { color:#900;font-weight:bold }
+    .chroma .nn { color:#24292e }
+    .chroma .nb { color:#6639ba }
+    .chroma .bp { color:#6a737d }
+    .chroma .nv,.chroma .vc,.chroma .vg,.chroma .vi,.chroma .vm { color:#953800 }
+    .chroma .nf,.chroma .fm { color:#6639ba }
+    .chroma .s,.chroma .sa,.chroma .sb,.chroma .sc,.chroma .dl,.chroma .sd,.chroma .s2,.chroma .se,.chroma .sh,.chroma .si,.chroma .sx,.chroma .sr,.chroma .s1 { color:#0a3069 }
+    .chroma .ss { color:#032f62 }
+    .chroma .m,.chroma .mb,.chroma .mf,.chroma .mh,.chroma .mi,.chroma .il,.chroma .mo { color:#0550ae }
+    .chroma .o,.chroma .ow { color:#0550ae }
+    .chroma .p { color:#1f2328 }
+    .chroma .c,.chroma .ch,.chroma .cm,.chroma .c1,.chroma .cs,.chroma .cp,.chroma .cpf { color:#57606a }
+    .chroma .gd { color:#82071e;background-color:#ffebe9 }
+    .chroma .ge { color:#1f2328 }
+    .chroma .gi { color:#116329;background-color:#dafbe1 }
+    .chroma .gl { text-decoration:underline }
+
+    /* ── Syntax highlighting (github dark) ───────────────────── */
+    [data-theme="dark"] .bg { color:#e6edf3;background-color:#0d1117; }
+    [data-theme="dark"] .chroma { color:#e6edf3;background-color:#0d1117; }
+    [data-theme="dark"] .chroma .err { color:#f85149 }
+    [data-theme="dark"] .chroma .hl { background-color:#6e7681 }
+    [data-theme="dark"] .chroma .lnt,[data-theme="dark"] .chroma .ln { color:#6e7681 }
+    [data-theme="dark"] .chroma .k,[data-theme="dark"] .chroma .kd,[data-theme="dark"] .chroma .kn,[data-theme="dark"] .chroma .kr,[data-theme="dark"] .chroma .kt { color:#ff7b72 }
+    [data-theme="dark"] .chroma .kc,[data-theme="dark"] .chroma .kp { color:#79c0ff }
+    [data-theme="dark"] .chroma .nc { color:#f0883e;font-weight:bold }
+    [data-theme="dark"] .chroma .no { color:#79c0ff;font-weight:bold }
+    [data-theme="dark"] .chroma .nd { color:#d2a8ff;font-weight:bold }
+    [data-theme="dark"] .chroma .ni { color:#ffa657 }
+    [data-theme="dark"] .chroma .ne { color:#f0883e;font-weight:bold }
+    [data-theme="dark"] .chroma .nl { color:#79c0ff;font-weight:bold }
+    [data-theme="dark"] .chroma .nn { color:#ff7b72 }
+    [data-theme="dark"] .chroma .nt { color:#7ee787 }
+    [data-theme="dark"] .chroma .nv,.chroma [data-theme="dark"] .vc,[data-theme="dark"] .chroma .vg,[data-theme="dark"] .chroma .vi,[data-theme="dark"] .chroma .vm { color:#79c0ff }
+    [data-theme="dark"] .chroma .nf,[data-theme="dark"] .chroma .fm { color:#d2a8ff;font-weight:bold }
+    [data-theme="dark"] .chroma .s,[data-theme="dark"] .chroma .sb,[data-theme="dark"] .chroma .sc,[data-theme="dark"] .chroma .sd,[data-theme="dark"] .chroma .s2,[data-theme="dark"] .chroma .si,[data-theme="dark"] .chroma .sx,[data-theme="dark"] .chroma .sr,[data-theme="dark"] .chroma .s1,[data-theme="dark"] .chroma .ss { color:#a5d6ff }
+    [data-theme="dark"] .chroma .sa,[data-theme="dark"] .chroma .dl,[data-theme="dark"] .chroma .se,[data-theme="dark"] .chroma .sh { color:#79c0ff }
+    [data-theme="dark"] .chroma .m,[data-theme="dark"] .chroma .mb,[data-theme="dark"] .chroma .mf,[data-theme="dark"] .chroma .mh,[data-theme="dark"] .chroma .mi,[data-theme="dark"] .chroma .il,[data-theme="dark"] .chroma .mo { color:#a5d6ff }
+    [data-theme="dark"] .chroma .o,[data-theme="dark"] .chroma .ow { color:#ff7b72;font-weight:bold }
+    [data-theme="dark"] .chroma .c,[data-theme="dark"] .chroma .ch,[data-theme="dark"] .chroma .cm,[data-theme="dark"] .chroma .c1,[data-theme="dark"] .chroma .cs,[data-theme="dark"] .chroma .cp,[data-theme="dark"] .chroma .cpf { color:#8b949e;font-style:italic }
+    [data-theme="dark"] .chroma .gd { color:#ffa198;background-color:#490202 }
+    [data-theme="dark"] .chroma .gi { color:#56d364;background-color:#0f5323 }
+    [data-theme="dark"] .chroma .gh,[data-theme="dark"] .chroma .gu { color:#79c0ff }
+    [data-theme="dark"] .chroma .gt { color:#ff7b72 }
+    [data-theme="dark"] .chroma .w { color:#6e7681 }
+
+    /* ── Active nav link ─────────────────────────────────────── */
+    .site-nav-links a.nav-active { color: var(--fg); font-weight: 600; }
+
+    /* ── Reading progress bar ────────────────────────────────── */
+    #reading-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: var(--accent);
+      z-index: 200;
+      transition: width .1s linear;
+      pointer-events: none;
     }
-    
-    /* Mobile responsive styles */
-    @media (max-width: 768px) {
-      .main-container {
-        flex-direction: column !important;
-        gap: 2rem !important;
-        padding: 0 0.5rem !important;
-        margin: 1rem auto !important;
-      }
-      
-      .sidebar {
-        width: 100% !important;
-        flex: none !important;
-        order: 2;
-      }
-      
-      .main-content {
-        order: 1;
-      }
-      
-      header {
-        padding: 1.5rem 0 !important;
-      }
-      
-      header h1 {
-        font-size: 1.5rem !important;
-      }
-      
-      main h1 {
-        font-size: 1.5rem !important;
-      }
-      
-      main h2 {
-        font-size: 1.25rem !important;
-      }
-      
-      main h3 {
-        font-size: 1.1rem !important;
-      }
-      
-      main p, main li {
-        font-size: 0.9rem !important;
-      }
-      
-      main blockquote {
-        font-size: 0.9rem !important;
-        padding: 0.8rem 1rem !important;
-      }
-      
-      main code, main pre {
-        font-size: 0.8rem !important;
-      }
-      
-      #theme-toggle {
-        top: 1rem !important;
-        right: 1rem !important;
-      }
-      
-      .sidebar-section {
-        padding: 1rem !important;
-        margin-bottom: 1.5rem !important;
-      }
-      
-      .tag-container {
-        gap: 0.3rem !important;
-      }
-      
-      .tag-link {
-        font-size: 0.75rem !important;
-        padding: 0.3rem 0.6rem !important;
-      }
-      
-      .tag-count {
-        font-size: 0.65rem !important;
-      }
-      
-      footer {
-        padding: 2rem 0 1.5rem !important;
-        margin-top: 2rem !important;
-      }
+
+    /* ── Pagination ──────────────────────────────────────────── */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: .875rem;
     }
-    
-    @media (min-width: 769px) and (max-width: 1200px) {
-      .sidebar {
-        flex: 0 0 180px !important;
-      }
+    .pagination a, .pagination span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2rem;
+      height: 2rem;
+      padding: 0 .5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background .15s, color .15s;
     }
-    
-    @media (min-width: 1201px) {
-      .sidebar {
-        flex: 0 0 220px !important;
-      }
+    .pagination a { color: var(--muted); border: 1px solid var(--border); }
+    .pagination a:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
+    .pagination .page-current { color: var(--accent); font-weight: 600; border: 1px solid var(--accent); background: var(--selection); }
+    .pagination .page-disabled { color: var(--faint); border: 1px solid var(--border); cursor: default; }
+    .post-share {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin-top: 2rem;
+      font-size: .825rem;
+      color: var(--muted);
     }
-    
-    @media (max-width: 480px) {
-      .main-container {
-        padding: 0 0.25rem !important;
-      }
-      
-      header h1 {
-        font-size: 1.3rem !important;
-      }
-      
-      header p {
-        font-size: 0.9rem !important;
-      }
-      
-      main h1 {
-        font-size: 1.3rem !important;
-      }
-      
-      main h2 {
-        font-size: 1.15rem !important;
-      }
-      
-      main h3 {
-        font-size: 1.05rem !important;
-      }
-      
-      main p, main li {
-        font-size: 0.85rem !important;
-      }
-      
-      main blockquote {
-        font-size: 0.85rem !important;
-        padding: 0.6rem 0.8rem !important;
-      }
-      
-      main code, main pre {
-        font-size: 0.75rem !important;
-      }
-      
-      .sidebar-section {
-        padding: 0.8rem !important;
-      }
-      
-      .nav-link, .rss-link {
-        font-size: 0.85rem !important;
-      }
-      
-      #search-input {
-        padding: 0.6rem !important;
-        font-size: 0.85rem !important;
-      }
+    .post-share a {
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: .25rem .65rem;
+      transition: color .15s, border-color .15s, background .15s;
     }
+    .post-share a:hover { color: var(--fg); border-color: var(--muted); text-decoration: none; }
   </style>
-  
-  <!-- Cloudflare Web Analytics -->
-  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "9dfc25c2c02248318b6aad2d54b41cf9"}'></script>
-  <!-- End Cloudflare Web Analytics -->
+
+  <!-- Webmention -->
+  <link rel="webmention" href="https://webmention.io/dev.viktormaruna.com/webmention">
+  <link rel="pingback" href="https://webmention.io/dev.viktormaruna.com/xmlrpc">
+
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "vo2kr63otz");
+  </script>
 </head>
-<body style="background:#fff; color:#222; font-family:sans-serif; margin:0;">
-  <header style="padding:2rem 0; text-align:center; border-bottom:1px solid #eee; position:relative;">
-    <button id="theme-toggle" style="position:absolute; top:1.5rem; right:1.5rem; background:transparent; border:none; width:24px; height:24px; cursor:pointer; font-size:1rem; color:#777; transition:color 0.2s; padding:0; font-family:monospace; font-weight:normal;">☽</button>
-    <h1 style="margin:0; font-size:2rem; font-weight:400;">{{ .Site.Title }}</h1>
-    <p style="margin:0.5rem 0 0; color:#888; font-size:1rem;">{{ .Site.Params.description }}</p>
-  </header>
-  <div class="main-container" style="max-width:1000px; margin:2rem auto; padding:0 1rem; display:flex; gap:3rem;">
-    <main class="main-content" style="flex:1; min-width:0;">
-      {{ block "main" . }}{{ end }}
-    </main>
-    <aside class="sidebar" style="flex: 0 0 200px;">
-      <div class="sidebar-section" style="background:#f9f9f9; padding:1.2rem; border-radius:8px; margin-bottom:2rem;">
-        <h3 style="margin:0 0 1.2rem 0; font-size:1.1rem; font-weight:500; color:#333;">Navigation</h3>
-        <nav>
-          <ul style="list-style:none; padding:0; margin:0;">
-            <li style="margin-bottom:0.8rem;">
-              <a href="{{ "/" | relURL }}" class="nav-link" style="color:#555; text-decoration:none; font-size:0.95rem; display:block; padding:0.3rem 0; border-bottom:1px solid transparent; transition:all 0.2s;">Home</a>
-            </li>
-            <li style="margin-bottom:0.8rem;">
-              <a href="{{ "/posts/" | relURL }}" class="nav-link" style="color:#00A19B; text-decoration:none; font-size:0.95rem; display:block; padding:0.3rem 0; border-bottom:1px solid transparent; transition:all 0.2s;">Posts</a>
-            </li>
-            <li style="margin-bottom:0.8rem;">
-              <a href="{{ "/tags/" | relURL }}" class="nav-link" style="color:#555; text-decoration:none; font-size:0.95rem; display:block; padding:0.3rem 0; border-bottom:1px solid transparent; transition:all 0.2s;">Tags</a>
-            </li>
-            <li style="margin-bottom:0.8rem;">
-              <a href="{{ "/about/" | relURL }}" class="nav-link" style="color:#555; text-decoration:none; font-size:0.95rem; display:block; padding:0.3rem 0; border-bottom:1px solid transparent; transition:all 0.2s;">About</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-      
-      <div class="sidebar-section" style="background:#f9f9f9; padding:1.2rem; border-radius:8px; margin-bottom:2rem;">
-        <h3 style="margin:0 0 1.2rem 0; font-size:1.1rem; font-weight:500; color:#333;">Subscribe</h3>
-        <p style="margin:0 0 1rem 0; color:#666; font-size:0.9rem; line-height:1.5;">Stay updated with the latest posts.</p>
-        <a href="{{ "/feed.xml" | relURL }}" class="rss-link" style="display:inline-block; padding:0.6rem 1rem; background:transparent; color:#555; text-decoration:none; border:1px solid #ddd; border-radius:4px; font-size:0.85rem; font-weight:400; transition:all 0.2s;">RSS Feed</a>
-      </div>
-      {{ block "sidebar" . }}{{ end }}
-      
-      <div class="sidebar-section" style="background:#f9f9f9; padding:1.2rem; border-radius:8px; margin-bottom:2rem;">
-        <h3 style="margin:0 0 1.2rem 0; font-size:1.1rem; font-weight:500; color:#333;">Tags</h3>
-        {{ $tags := .Site.Taxonomies.tags }}
-        {{ if $tags }}
-          <div class="tag-container" style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-bottom:1rem;">
-            {{ range first 8 $tags.ByCount }}
-              <a href="{{ .Page.RelPermalink }}" class="tag-link" style="display:inline-flex; align-items:center; padding:0.3rem 0.6rem; background:#fff; color:#555; text-decoration:none; border:1px solid #e0e0e0; border-radius:16px; font-size:0.75rem; font-weight:400; transition:all 0.2s;">
-                {{ .Page.Title }}
-                <span class="tag-count" style="margin-left:0.3rem; background:#f0f0f0; color:#666; padding:0.1rem 0.3rem; border-radius:8px; font-size:0.65rem;">{{ .Count }}</span>
-              </a>
-            {{ end }}
+<body>
+  <div id="reading-progress"></div>
+  <nav class="site-nav">
+    <div>
+      <a href="{{ "/" | relURL }}" class="site-nav-brand">{{ .Site.Title }}</a>
+      <div class="site-nav-links">
+      <a href="{{ "/posts/" | relURL }}"{{ if or .IsHome (eq .Section "posts") }} class="nav-active"{{ end }}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Posts</a>
+      <a href="{{ "/tags/" | relURL }}"{{ if eq .Section "tags" }} class="nav-active"{{ end }}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>Tags</a>
+      <a href="{{ "/about/" | relURL }}"{{ if eq .RelPermalink "/about/" }} class="nav-active"{{ end }}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>About</a>
+      <a href="{{ "/feed.xml" | relURL }}" aria-label="RSS Feed"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>RSS</a>
+
+      <!-- Search -->
+      <div class="nav-search">
+        <button class="search-btn" id="search-toggle" aria-label="Search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
+        <div class="search-dropdown" id="search-dropdown">
+          <div class="search-input-wrap">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" id="search-input" aria-label="Search posts" placeholder="Search posts…" autocomplete="off" spellcheck="false">
           </div>
-          <div style="text-align:center;">
-            <a href="{{ "/tags/" | relURL }}" style="color:#666; text-decoration:none; font-size:0.85rem; padding:0.3rem 0; display:block; transition:color 0.2s;">View all tags</a>
-          </div>
-        {{ end }}
-      </div>
-      
-      <div class="sidebar-section" style="background:#f9f9f9; padding:1.2rem; border-radius:8px; margin-bottom:2rem;">
-        <h3 style="margin:0 0 1.2rem 0; font-size:1.1rem; font-weight:500; color:#333;">Search</h3>
-        <input type="text" id="search-input" placeholder="Search posts..." style="width:100%; padding:0.7rem; border:1px solid #ddd; border-radius:4px; font-size:0.9rem; box-sizing:border-box;">
-        <div id="search-results" style="margin-top:1rem; display:none;">
-          <div id="search-results-list" style="max-height:200px; overflow-y:auto;"></div>
+          <div class="search-results-list" id="search-results-list"></div>
         </div>
       </div>
-    </aside>
-  </div>
-  <footer style="text-align:center; color:#aaa; font-size:0.9rem; padding:3rem 0 2rem; border-top:1px solid #eee; margin-top:3rem;">
-    <div style="max-width:600px; margin:0 auto;">
-      <p style="margin:0 0 0.5rem 0; color:#999; font-size:0.85rem;">
-        &copy; {{ now.Year }} <a href="https://viktormaruna.com" style="color:#555; text-decoration:none;">Viktor Maruna</a> • All rights reserved
-      </p>
-      <p style="margin:0; color:#aaa; font-size:0.8rem;">
-        Employee of <a href="https://adastracorp.com/" style="color:#555; text-decoration:none;">Adastra</a>. Content is personal.
-      </p>
-    </div>
-  </footer>
-  
-  <script>
-    // Dark theme toggle functionality
-    document.addEventListener('DOMContentLoaded', function() {
-      const themeToggle = document.getElementById('theme-toggle');
-      const body = document.body;
-      
-      // Check for saved theme preference or default to light
-      const savedTheme = localStorage.getItem('theme') || 'light';
-      
-      function applyTheme(theme) {
-        if (theme === 'dark') {
-          // Dark theme styles
-          body.style.background = '#1a1a1a';
-          body.style.color = '#f5f5f5';
-          
-          // Update header
-          const header = document.querySelector('header');
-          if (header) {
-            header.style.borderBottom = '1px solid #333';
-          }
-          
-          // Update header title and description
-          const headerH1 = document.querySelector('header h1');
-          if (headerH1) {
-            headerH1.style.color = '#ffffff';
-          }
-          
-          const headerP = document.querySelector('header p');
-          if (headerP) {
-            headerP.style.color = '#cccccc';
-          }
-          
-          // Update main content text
-          const main = document.querySelector('main');
-          if (main) {
-            main.style.color = '#ffffff';
-            
-            // Update all headings in main content
-            const headings = main.querySelectorAll('h1, h2, h3, h4, h5, h6');
-            headings.forEach(h => {
-              if (h.tagName.toLowerCase() === 'h1') {
-                h.style.color = '#00D4AA'; // Brighter teal for dark mode
-              } else {
-                h.style.color = '#ffffff';
-              }
-            });
-            
-            // Update Petronas-colored titles and links
-            const petronasElements = document.querySelectorAll('[style*="#00A19B"], a[style*="#00A19B"]');
-            petronasElements.forEach(el => {
-              el.style.color = '#00D4AA';
-            });
-            
-            // Update all paragraphs in main content
-            const paragraphs = main.querySelectorAll('p');
-            paragraphs.forEach(p => {
-              p.style.color = '#e0e0e0';
-            });
-            
-            // Update all list items in main content
-            const listItems = main.querySelectorAll('li');
-            listItems.forEach(li => {
-              li.style.color = '#e0e0e0';
-            });
-            
-            // Update all links in main content
-            const mainLinks = main.querySelectorAll('a');
-            mainLinks.forEach(link => {
-              // Check if it's a post title link (in h1, h2, h3)
-              if (link.closest('h1') || link.closest('h2') || link.closest('h3')) {
-                link.style.color = '#00D4AA !important';
-              } else {
-                link.style.color = '#88c999 !important';
-              }
-            });
-            
-            // Update all other links on page (universal override)
-            const allLinks = document.querySelectorAll('a');
-            allLinks.forEach(link => {
-              // Skip navigation and RSS links which have their own handling
-              if (!link.closest('nav') && !link.href.includes('feed.xml') && !link.closest('aside')) {
-                link.style.color = '#88c999';
-              }
-            });
-            
-            // Update blockquotes in main content
-            const blockquotes = main.querySelectorAll('blockquote');
-            blockquotes.forEach(bq => {
-              bq.style.color = '#d0d0d0';
-              bq.style.background = '#2a2a2a';
-              bq.style.borderLeft = '4px solid #555';
-            });
-            
-            // Update code blocks and inline code
-            const codeElements = main.querySelectorAll('code, pre');
-            codeElements.forEach(code => {
-              code.style.color = '#e0e0e0';
-              code.style.background = '#2d2d2d';
-            });
-          }
-          
-          // Update sidebar boxes
-          const sidebarBoxes = document.querySelectorAll('aside > div');
-          sidebarBoxes.forEach(box => {
-            box.style.background = '#2a2a2a';
-            box.style.color = '#f5f5f5';
-          });
-          
-          // Update sidebar headings
-          const sidebarHeadings = document.querySelectorAll('aside h3');
-          sidebarHeadings.forEach(h => {
-            h.style.color = '#ffffff';
-          });
-          
-          // Update sidebar paragraphs for better contrast
-          const sidebarPs = document.querySelectorAll('aside p');
-          sidebarPs.forEach(p => {
-            p.style.color = '#e0e0e0';
-          });
-          
-          // Update links
-          const links = document.querySelectorAll('aside a');
-          links.forEach(link => {
-            if (link.href.includes('feed.xml')) {
-              // RSS button
-              link.style.setProperty('border', '1px solid #555', 'important');
-              link.style.setProperty('color', '#fff', 'important');
-            } else if (link.href.includes('/tags/')) {
-              // Tag links
-              if (link.querySelector('span')) {
-                // Tag buttons with counts
-                link.style.setProperty('background', '#333', 'important');
-                link.style.setProperty('border', '1px solid #555', 'important');
-                link.style.setProperty('color', '#fff', 'important');
-                // Update tag count styling
-                const tagCount = link.querySelector('.tag-count');
-                if (tagCount) {
-                  tagCount.style.setProperty('background', '#404040', 'important');
-                  tagCount.style.setProperty('color', '#fff', 'important');
-                }
-              } else {
-                // "View all tags" link
-                link.style.setProperty('color', '#fff', 'important');
-              }
-            } else {
-              // Navigation links
-              link.style.setProperty('color', '#fff', 'important');
-            }
-          });
-          
-          // Update search input
-          const searchInput = document.getElementById('search-input');
-          if (searchInput) {
-            searchInput.style.background = '#333';
-            searchInput.style.border = '1px solid #555';
-            searchInput.style.color = '#f5f5f5';
-          }
-          
-          // Update footer
-          const footer = document.querySelector('footer');
-          if (footer) {
-            footer.style.borderTop = '1px solid #333';
-            footer.style.color = '#cccccc';
-          }
-          
-          // Update footer links
-          const footerLinks = document.querySelectorAll('footer a');
-          footerLinks.forEach(link => {
-            link.style.color = '#e0e0e0';
-          });
-          
-          themeToggle.textContent = '☀';
-        } else {
-          // Light theme styles (reset to defaults)
-          body.style.background = '#fff';
-          body.style.color = '#222';
-          
-          // Reset header
-          const header = document.querySelector('header');
-          if (header) {
-            header.style.borderBottom = '1px solid #eee';
-          }
-          
-          // Reset header title and description
-          const headerH1 = document.querySelector('header h1');
-          if (headerH1) {
-            headerH1.style.color = '';
-          }
-          
-          const headerP = document.querySelector('header p');
-          if (headerP) {
-            headerP.style.color = '';
-          }
-          
-          // Reset main content
-          const main = document.querySelector('main');
-          if (main) {
-            main.style.color = '';
-            
-            // Reset all headings in main content
-            const headings = main.querySelectorAll('h1, h2, h3, h4, h5, h6');
-            headings.forEach(h => {
-              if (h.tagName.toLowerCase() === 'h1') {
-                h.style.color = '#00A19B'; // Keep Petronas teal for h1
-              } else {
-                h.style.color = '';
-              }
-            });
-            
-            // Reset Petronas-colored titles and links to original teal
-            const petronasElements = document.querySelectorAll('[style*="#00D4AA"], a[style*="#00D4AA"]');
-            petronasElements.forEach(el => {
-              el.style.color = '#00A19B';
-            });
-            
-            // Reset all paragraphs in main content
-            const paragraphs = main.querySelectorAll('p');
-            paragraphs.forEach(p => {
-              p.style.color = '';
-            });
-            
-            // Reset all list items in main content
-            const listItems = main.querySelectorAll('li');
-            listItems.forEach(li => {
-              li.style.color = '';
-            });
-            
-            // Reset all links in main content
-            const mainLinks = main.querySelectorAll('a');
-            mainLinks.forEach(link => {
-              // Check if it's a post title link (in h1, h2, h3)
-              if (link.closest('h1') || link.closest('h2') || link.closest('h3')) {
-                link.style.color = '#00A19B !important';
-              } else {
-                link.style.color = '#555';
-              }
-            });
-            
-            // Reset all other links on page (universal override)
-            const allLinks = document.querySelectorAll('a');
-            allLinks.forEach(link => {
-              // Skip navigation and RSS links which have their own handling
-              if (!link.closest('nav') && !link.href.includes('feed.xml') && !link.closest('aside')) {
-                link.style.color = '#555';
-              }
-            });
-            
-            // Reset blockquotes in main content
-            const blockquotes = main.querySelectorAll('blockquote');
-            blockquotes.forEach(bq => {
-              bq.style.color = '';
-              bq.style.background = '';
-              bq.style.borderLeft = '';
-            });
-            
-            // Reset code blocks and inline code
-            const codeElements = main.querySelectorAll('code, pre');
-            codeElements.forEach(code => {
-              code.style.color = '';
-              code.style.background = '';
-            });
-          }
-          
-          // Reset sidebar boxes
-          const sidebarBoxes = document.querySelectorAll('aside > div');
-          sidebarBoxes.forEach(box => {
-            box.style.background = '#f9f9f9';
-            box.style.color = '';
-          });
-          
-          // Reset sidebar headings
-          const sidebarHeadings = document.querySelectorAll('aside h3');
-          sidebarHeadings.forEach(h => {
-            h.style.color = '#333';
-          });
-          
-          // Reset sidebar paragraphs
-          const sidebarPs = document.querySelectorAll('aside p');
-          sidebarPs.forEach(p => {
-            p.style.color = '';
-          });
-          
-          // Reset links
-          const links = document.querySelectorAll('aside a');
-          links.forEach(link => {
-            if (link.href.includes('feed.xml')) {
-              // RSS button
-              link.style.border = '1px solid #ddd';
-              link.style.color = '#555';
-            } else if (link.href.includes('/tags/')) {
-              // Tag links
-              if (link.querySelector('span')) {
-                // Tag buttons with counts
-                link.style.background = '#fff';
-                link.style.border = '1px solid #e0e0e0';
-                link.style.color = '#555';
-                // Reset tag count styling
-                const tagCount = link.querySelector('.tag-count');
-                if (tagCount) {
-                  tagCount.style.background = '#f0f0f0';
-                  tagCount.style.color = '#666';
-                }
-              } else {
-                // "View all tags" link
-                link.style.color = '#666';
-              }
-            } else {
-              // Navigation links
-              link.style.color = '#555';
-            }
-          });
-          
-          // Reset search input
-          const searchInput = document.getElementById('search-input');
-          if (searchInput) {
-            searchInput.style.background = '';
-            searchInput.style.border = '1px solid #ddd';
-            searchInput.style.color = '';
-          }
-          
-          // Reset footer
-          const footer = document.querySelector('footer');
-          if (footer) {
-            footer.style.borderTop = '1px solid #eee';
-            footer.style.color = '';
-          }
-          
-          // Reset footer links
-          const footerLinks = document.querySelectorAll('footer a');
-          footerLinks.forEach(link => {
-            link.style.color = '';
-          });
-          
-          themeToggle.textContent = '☾';
-        }
-      }
-      
-      // Apply saved theme
-      applyTheme(savedTheme);
-      
-      // Toggle theme on button click
-      themeToggle.addEventListener('click', function() {
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-        localStorage.setItem('theme', newTheme);
-        applyTheme(newTheme);
-      });
-    });
 
-    // Simple client-side search
-    document.addEventListener('DOMContentLoaded', function() {
-      const searchInput = document.getElementById('search-input');
-      const searchResults = document.getElementById('search-results');
-      const searchResultsList = document.getElementById('search-results-list');
-      
-      if (!searchInput) return;
-      
-      // Create posts index from current page content
-      let posts = [];
-      
-      // Collect posts from homepage if available
-      const postLinks = document.querySelectorAll('main h3 a, main h2 a');
-      postLinks.forEach(link => {
-        const title = link.textContent.trim();
-        const url = link.href;
-        const listItem = link.closest('li');
-        let summary = '';
-        if (listItem) {
-          const summaryEl = listItem.querySelector('p');
-          if (summaryEl) summary = summaryEl.textContent.trim();
-        }
-        
-        posts.push({ title, url, summary });
+      <button class="theme-btn" id="theme-toggle" aria-label="Toggle dark mode">
+        <!-- Moon: visible in light mode -->
+        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun: visible in dark mode -->
+        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+        </svg>
+      </button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    {{ block "main" . }}{{ end }}
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; {{ now.Year }} <a href="https://viktormaruna.com">Viktor Maruna</a> &middot; Employee of <a href="https://adastracorp.com/">Adastra</a>. Content is personal.</p>
+    <p class="footer-license">
+      Blog content: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>
+      &middot; Code snippets: <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener">MIT</a>
+    </p>
+  </footer>
+
+  <script>
+    // ── Theme toggle ──────────────────────────────────────────
+    (function() {
+      var btn = document.getElementById('theme-toggle');
+      var html = document.documentElement;
+      function setTheme(t) {
+        html.setAttribute('data-theme', t);
+        localStorage.setItem('theme', t);
+      }
+      setTheme(html.getAttribute('data-theme') || 'light');
+      btn.addEventListener('click', function() {
+        setTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
       });
-      
-      searchInput.addEventListener('input', function() {
-        const query = this.value.toLowerCase().trim();
-        
-        if (query.length < 2) {
-          searchResults.style.display = 'none';
+    })();
+
+    // ── Reading progress bar ──────────────────────────────────
+    (function() {
+      var bar = document.getElementById('reading-progress');
+      if (!bar || !document.querySelector('.post-content')) return;
+      function update() {
+        var content = document.querySelector('.post-content');
+        var rect = content.getBoundingClientRect();
+        var total = rect.height;
+        var scrolled = Math.max(0, -rect.top);
+        var pct = Math.min(100, (scrolled / total) * 100);
+        bar.style.width = pct + '%';
+      }
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    })();
+
+    // ── Search ────────────────────────────────────────────────
+    (function() {
+      var toggle   = document.getElementById('search-toggle');
+      var dropdown = document.getElementById('search-dropdown');
+      var input    = document.getElementById('search-input');
+      var list     = document.getElementById('search-results-list');
+      var index    = null;
+
+      function openSearch() {
+        dropdown.classList.add('open');
+        input.focus();
+        if (!index) loadIndex();
+      }
+      function closeSearch() {
+        dropdown.classList.remove('open');
+        input.value = '';
+        list.innerHTML = '';
+      }
+
+      toggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dropdown.classList.contains('open') ? closeSearch() : openSearch();
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!dropdown.contains(e.target) && e.target !== toggle) closeSearch();
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeSearch();
+        if ((e.key === 'k' && (e.metaKey || e.ctrlKey))) { e.preventDefault(); openSearch(); }
+      });
+
+      function loadIndex() {
+        fetch('/index.json')
+          .then(function(r) { return r.json(); })
+          .then(function(data) { index = data; if (input.value) render(input.value); })
+          .catch(function() { index = []; });
+      }
+
+      function highlight(text, query) {
+        var re = new RegExp('(' + query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+        return text.replace(re, '<mark>$1</mark>');
+      }
+
+      function render(query) {
+        if (!index || !query.trim()) { list.innerHTML = ''; return; }
+        var q = query.toLowerCase().trim();
+        var results = index.filter(function(p) {
+          return p.title.toLowerCase().includes(q) ||
+                 p.summary.toLowerCase().includes(q) ||
+                 (p.tags && p.tags.some(function(t) { return t.toLowerCase().includes(q); }));
+        }).slice(0, 6);
+
+        if (!results.length) {
+          list.innerHTML = '<div class="search-empty">No results for "' + query + '"</div>';
           return;
         }
-        
-        const filteredPosts = posts.filter(post => 
-          post.title.toLowerCase().includes(query) || 
-          post.summary.toLowerCase().includes(query)
-        );
-        
-        if (filteredPosts.length > 0) {
-          const isDark = document.body.style.background === '#1a1a1a';
-          const bgColor = isDark ? '#333' : '#fff';
-          const borderColor = isDark ? '#555' : '#eee';
-          const titleColor = isDark ? '#f0f0f0' : '#333';
-          const textColor = isDark ? '#cccccc' : '#666';
-          
-          searchResultsList.innerHTML = filteredPosts.slice(0, 5).map(post => `
-            <div style="margin-bottom:1rem; padding:0.8rem; background:${bgColor}; border-radius:4px; border:1px solid ${borderColor};">
-              <a href="${post.url}" style="color:${titleColor}; text-decoration:none; font-weight:500; font-size:0.9rem; display:block; margin-bottom:0.3rem;">${post.title}</a>
-              <p style="margin:0; color:${textColor}; font-size:0.8rem; line-height:1.4;">${post.summary.slice(0, 100)}${post.summary.length > 100 ? '...' : ''}</p>
-            </div>
-          `).join('');
-          searchResults.style.display = 'block';
-        } else {
-          const isDark = document.body.style.background === '#1a1a1a';
-          const textColor = isDark ? '#cccccc' : '#999';
-          searchResultsList.innerHTML = `<div style="padding:0.8rem; color:${textColor}; font-size:0.85rem;">No results found</div>`;
-          searchResults.style.display = 'block';
-        }
+        list.innerHTML = results.map(function(p) {
+          return '<a href="' + p.url + '" class="search-result-item">' +
+            '<div class="search-result-title">' + highlight(p.title, q) + '</div>' +
+            '<div class="search-result-meta">' + p.date + (p.tags && p.tags.length ? ' &middot; #' + p.tags.join(' #') : '') + '</div>' +
+            '</a>';
+        }).join('');
+      }
+
+      input.addEventListener('input', function() { render(this.value); });
+    })();
+
+    // ── Copy code buttons ─────────────────────────────────────
+    (function() {
+      document.querySelectorAll('pre').forEach(function(pre) {
+        var wrap = document.createElement('div');
+        wrap.className = 'code-wrap';
+        pre.parentNode.insertBefore(wrap, pre);
+        wrap.appendChild(pre);
+        var btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.textContent = 'Copy';
+        btn.setAttribute('aria-label', 'Copy code');
+        wrap.appendChild(btn);
+        btn.addEventListener('click', function() {
+          var code = pre.querySelector('code') || pre;
+          navigator.clipboard.writeText(code.innerText).then(function() {
+            btn.textContent = 'Copied!';
+            btn.classList.add('copied');
+            setTimeout(function() {
+              btn.textContent = 'Copy';
+              btn.classList.remove('copied');
+            }, 2000);
+          });
+        });
       });
-      
-      // Hide results when clicking outside
-      document.addEventListener('click', function(e) {
-        if (!e.target.closest('#search-input') && !e.target.closest('#search-results')) {
-          searchResults.style.display = 'none';
-        }
-      });
-    });
+    })();
   </script>
 </body>
 </html>
