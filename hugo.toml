@@ -4,7 +4,8 @@ title = 'Viktor Maruna — Cloud, Data & AI'
 
 theme = 'vm'
 
-paginate = 10
+[pagination]
+  pagerSize = 10
 
 # Enable tags taxonomy
 [taxonomies]
