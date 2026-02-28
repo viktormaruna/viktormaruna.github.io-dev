@@ -1,7 +1,7 @@
 ---
 title: "About"
 description: "Viktor Maruna — Data Engineer and Solution Architect specializing in cloud, data platforms, and AI."
-layout: "page"
+type: "staticpage"
 ---
 
 I'm Viktor Maruna, a Data Engineer and Solution Architect (Data & Analytics) at [Adastra](https://adastracorp.com/) with over 10 years of experience specializing in enterprise data platforms, cloud architecture and analytics solutions.
