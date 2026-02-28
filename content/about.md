@@ -19,6 +19,7 @@ In this blog, I share technical insights on data engineering, cloud architecture
 ## Professional Certifications
 
 **Databricks**
+
 - [Academy Accreditation - Azure Databricks Platform Architect](https://credentials.databricks.com/cbaa96f5-1144-4b4c-bfb9-26ecf5f17b9d) (Dec 2023 - Present)
 - [Academy Accreditation - Databricks Lakehouse Fundamentals](https://credentials.databricks.com/513470a7-66e0-4a77-9a24-d1892ca083e3) (Jan 2025 - Present)
 - [Academy Accreditation - Generative AI Fundamentals](https://credentials.databricks.com/4c37007c-a447-461f-8a42-ff30c89b4378) (Jul 2023 - Present)
@@ -28,6 +29,7 @@ In this blog, I share technical insights on data engineering, cloud architecture
 - [Partner Training - Advantages of Azure Databricks & Microsoft Fabric](https://credentials.databricks.com/eea677de-655b-47fb-b02d-1e2e2c4833f8) (Oct 2024 - Present)
 
 **Microsoft**
+
 - [Microsoft Certified: Azure Administrator Associate](https://learn.microsoft.com/en-us/users/viktormaruna/credentials/b61e5316d3e64f06) (Sep 2021 - Present)
 - [Microsoft Certified: Azure AI Engineer Associate](https://learn.microsoft.com/en-us/users/viktormaruna/credentials/561f8f8870a95a8b) (Nov 2020 - Present)
 - [Microsoft Certified: Azure AI Fundamentals](https://learn.microsoft.com/en-us/users/viktormaruna/credentials/3389bdfb81f553ba) (Nov 2020 - Present)
@@ -42,6 +44,7 @@ In this blog, I share technical insights on data engineering, cloud architecture
 - [Microsoft Certified: Security, Compliance, and Identity Fundamentals](https://learn.microsoft.com/en-us/users/viktormaruna/credentials/9d9fc2dbeddbad86) (Sep 2021 - Present)
 
 **Amazon Web Services (AWS)**
+
 - [AWS Certified Cloud Practitioner](https://www.credly.com/badges/8c137df1-c940-4bc1-ab7b-e9d5f7c848f2) (Mar 2021 - Present)
 - [AWS Certified Data Analytics – Specialty](https://www.credly.com/badges/48ed7a12-1fd1-4a53-be48-ba89452ecfe1) (Nov 2021 - Nov 2024)
 - [AWS Certified Solutions Architect – Associate](https://www.credly.com/badges/5c0fcf3a-cd1b-4c59-a9d2-dbdadd861c51) (Mar 2021 - Mar 2024)

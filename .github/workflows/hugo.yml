@@ -1,9 +1,14 @@
-# Sample workflow for building and deploying a Hugo site to GitHub Pages
+# Workflow for building and deploying a Hugo site to GitHub Pages
 name: Deploy Hugo site to Pages
 
 on:
   # Runs on pushes targeting the default branch
   push:
+    branches:
+      - main
+
+  # Validates the build on pull requests without deploying
+  pull_request:
     branches:
       - main
 
@@ -55,6 +60,7 @@ jobs:
           fetch-depth: 0
       - name: Setup Pages
         id: pages
+        if: github.event_name != 'pull_request'
         uses: actions/configure-pages@v5
       - name: Install Node.js dependencies
         run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
@@ -64,32 +70,44 @@ jobs:
         with:
           path: |
             ${{ runner.temp }}/hugo_cache
-          key: hugo-${{ github.run_id }}
+          key: hugo-${{ hashFiles('hugo.toml', 'content/**', 'layouts/**', 'themes/**', 'static/**') }}
           restore-keys:
             hugo-
       - name: Configure Git
         run: git config core.quotepath false
       - name: Build with Hugo
         run: |
+          BASE_URL="${{ steps.pages.outputs.base_url }}"
           hugo \
             --gc \
             --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/" \
+            ${BASE_URL:+--baseURL "${BASE_URL}/"} \
             --cacheDir "${{ runner.temp }}/hugo_cache"
       - name: Cache Save
         id: cache-save
+        if: github.event_name != 'pull_request'
         uses: actions/cache/save@v4
         with:
           path: |
             ${{ runner.temp }}/hugo_cache
           key: ${{ steps.cache-restore.outputs.cache-primary-key }}
+      - name: Check internal links
+        run: |
+          HTMLTEST_VERSION=0.17.0
+          curl -sLo /tmp/htmltest.tar.gz \
+            "https://github.com/wjdp/htmltest/releases/download/v${HTMLTEST_VERSION}/htmltest_${HTMLTEST_VERSION}_linux_amd64.tar.gz"
+          tar -xf /tmp/htmltest.tar.gz -C /tmp
+          chmod +x /tmp/htmltest
+          /tmp/htmltest --conf .htmltest.yml
       - name: Upload artifact
+        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./public
 
   # Deployment job
   deploy:
+    if: github.event_name != 'pull_request'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
