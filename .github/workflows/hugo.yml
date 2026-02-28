@@ -92,7 +92,6 @@ jobs:
             ${{ runner.temp }}/hugo_cache
           key: ${{ steps.cache-restore.outputs.cache-primary-key }}
       - name: Check internal links
-        if: false
         run: |
           HTMLTEST_VERSION=0.17.0
           curl -sLo /tmp/htmltest.tar.gz \

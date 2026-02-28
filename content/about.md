@@ -67,7 +67,7 @@ Occasionally speaking at industry events on data engineering and cloud analytics
 
 Presented *"From Data to Decisions: AI-Powered Analytics in Action"* — leveraging AI and cloud analytics to convert data into actionable operational decisions. Hosted by Microsoft (EMEA roadshow).
 
-**Microsoft Fabric Workshop** · *Bratislava, Slovakia · Apr 2024*
+**[Microsoft Fabric Workshop](https://www.govevents.com/details/73810/fabric-analyst-in-a-day--adastra-sro/)** · *Bratislava, Slovakia · Apr 2024*
 
 Delivered *"Microsoft Fabric Roadmap, Use Cases and Hands-On Demo"* — showcasing real-world Fabric applications and live demos to accelerate data-driven innovation. Co-hosted by Adastra & Microsoft.
 
