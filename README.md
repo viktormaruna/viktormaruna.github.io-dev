@@ -86,7 +86,7 @@ Set `draft: false` when ready to publish. Push to `main` to deploy automatically
 
 ## Project Structure
 
-```
+```text
 hugo.toml                  # Site config — outputs, giscus, RSS, TOC settings
 content/
   posts/                   # Blog articles (Markdown)
