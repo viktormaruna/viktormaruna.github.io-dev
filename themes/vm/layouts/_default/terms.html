@@ -1,9 +1,7 @@
 {{ define "main" }}
   {{- $terms := .Data.Terms.ByCount -}}
-  {{- $total := 0 -}}{{- range $terms }}{{- $total = add $total .Count -}}{{- end }}
   <div class="tags-page-header">
     <p class="page-title">Browse by Topic</p>
-    <p class="tags-page-meta">{{ len $terms }} {{ if eq (len $terms) 1 }}topic{{ else }}topics{{ end }} &middot; {{ $total }} {{ if eq $total 1 }}post{{ else }}posts{{ end }}</p>
   </div>
   <div class="tag-cloud">
     {{ range $terms }}
