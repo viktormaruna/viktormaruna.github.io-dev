@@ -104,7 +104,7 @@
     :root {
       --bg:         #ffffff;
       --fg:         #111111;
-      --muted:      #737373;
+      --muted:      #666666;
       --faint:      #d4d4d4;
       --accent:     #e11d48;
       --accent-h:   #be123c;
@@ -118,14 +118,14 @@
     [data-theme="dark"] {
       --bg:         #0a0a0a;
       --fg:         #e5e5e5;
-      --muted:      #737373;
+      --muted:      #a3a3a3;
       --faint:      #262626;
       --accent:     #fb7185;
       --accent-h:   #fda4af;
       --border:     #262626;
       --code-bg:    #141414;
       --nav-bg:     rgba(10,10,10,0.88);
-      --selection:  #881337;
+      --selection:  #4c0519;
     }
 
     ::selection { background: var(--selection); }
@@ -620,6 +620,7 @@
       font-weight: 700;
       margin-right: 1px;
     }
+    .tag-cloud-item:hover .tag-cloud-name::before { color: var(--fg); }
     .tag-cloud-count {
       font-size: .75rem;
       color: var(--muted);
@@ -726,7 +727,7 @@
     }
     .pagination a { color: var(--muted); border: 1px solid var(--border); }
     .pagination a:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
-    .pagination .page-current { color: var(--accent); font-weight: 600; border: 1px solid var(--accent); background: var(--selection); }
+    .pagination .page-current { color: var(--fg); font-weight: 600; border: 1px solid var(--accent); background: var(--selection); }
     .pagination .page-disabled { color: var(--faint); border: 1px solid var(--border); cursor: default; }
     .post-share {
       display: flex;
@@ -745,6 +746,12 @@
       transition: color .15s, border-color .15s, background .15s;
     }
     .post-share a:hover { color: var(--fg); border-color: var(--muted); text-decoration: none; }
+
+    /* ── CTA button (e.g. 404 page) ─────────────────────────── */
+    .btn-home { display: inline-block; background: var(--accent); color: #fff; padding: .6rem 1.5rem; border-radius: 6px; text-decoration: none; font-size: .9rem; font-weight: 500; transition: background .15s; }
+    .btn-home:hover { background: var(--accent-h); color: #fff; text-decoration: none; }
+    [data-theme="dark"] .btn-home { color: #111111; }
+    [data-theme="dark"] .btn-home:hover { color: #111111; }
   </style>
 
   <!-- Webmention -->
@@ -862,11 +869,9 @@
       var bar = document.getElementById('reading-progress');
       if (!bar || !document.querySelector('.post-content')) return;
       function update() {
-        var content = document.querySelector('.post-content');
-        var rect = content.getBoundingClientRect();
-        var total = rect.height;
-        var scrolled = Math.max(0, -rect.top);
-        var pct = Math.min(100, (scrolled / total) * 100);
+        var scrolled = window.scrollY || document.documentElement.scrollTop;
+        var total = document.documentElement.scrollHeight - window.innerHeight;
+        var pct = total > 0 ? Math.min(100, (scrolled / total) * 100) : 0;
         bar.style.width = pct + '%';
       }
       window.addEventListener('scroll', update, { passive: true });
