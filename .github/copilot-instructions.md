@@ -20,7 +20,7 @@ Hugo is installed locally at `~/bin/hugo` (not on system PATH by default — `~/
 ~/bin/hugo --gc --minify --baseURL "https://dev.viktormaruna.com/"
 ```
 
-> GitHub Actions CI uses Hugo extended v0.157.0 (see `HUGO_VERSION` in `.github/workflows/hugo.yml`). Keep your local binary on the same version.
+> GitHub Actions CI uses Hugo extended v0.164.0 (see `HUGO_VERSION` in `.github/workflows/hugo.yml`). Keep your local binary on the same version.
 
 ## Architecture
 
@@ -36,10 +36,12 @@ themes/vm/
       list.html        # Post listing pages
     index.html         # Home page template
     partials/
-      comments.html    # Giscus integration
+      comments.html        # Giscus integration
+      post-list-item.html  # Shared post list entry (home, list, tag pages)
 content/
   posts/               # Blog articles (Markdown)
 static/
+  fonts/               # Self-hosted Inter + JetBrains Mono (variable woff2)
   robots.txt
 ```
 
@@ -86,13 +88,15 @@ Client-side full-text search:
 Served at `/feed.xml` (not `/rss.xml`) — configured with `baseName = "feed"` under `[outputFormats.RSS]` in `hugo.toml`.
 
 ### Post front matter
-```toml
-title       = "Post Title"
-date        = 2025-01-15T10:00:00Z
-draft       = false
-description = "Short description for SEO and Open Graph (~160 chars)"
-tags        = ["cloud", "data"]
-categories  = ["Article"]
+Posts use YAML front matter (the `tags` taxonomy is the only one configured — no categories):
+```yaml
+---
+title: "Post Title"
+date: 2025-01-15T10:00:00Z
+draft: false
+description: "Short description for SEO and Open Graph (~160 chars)"
+tags: ["cloud", "data"]
+---
 ```
 Use `hugo new posts/my-post.md` to scaffold from the archetype (auto-generates title from filename, sets `draft = true`).
 

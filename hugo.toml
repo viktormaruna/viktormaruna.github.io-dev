@@ -1,7 +1,8 @@
 baseURL = 'https://dev.viktormaruna.com/'
-languageCode = 'en-us'
+locale = 'en-us'
 title = 'Viktor Maruna — Cloud, Data & AI'
 enableRobotsTXT = false
+enableGitInfo = true
 
 theme = 'vm'
 
@@ -10,7 +11,6 @@ theme = 'vm'
 
 [taxonomies]
   tag = "tags"
-  category = ""
 
 # RSS Feed configuration
 [outputFormats]

@@ -1,7 +1,7 @@
 {{ define "main" }}
   {{- $paginator := .Paginate (where .Site.RegularPages "Section" "posts") -}}
   <div class="home-intro">
-    <img src="/avatar.jpg" alt="Viktor Maruna" class="home-intro-avatar">
+    <img src="{{ "/avatar.jpg" | relURL }}" alt="Viktor Maruna" class="home-intro-avatar">
     <div class="home-intro-text">
       <h1 class="home-intro-name">Viktor Maruna</h1>
       <p class="home-intro-bio">Data Engineer &amp; Solution Architect at <a href="https://adastracorp.com/" target="_blank" rel="noopener">Adastra</a>. Writing about cloud architecture, data platforms, and AI.</p>
@@ -14,18 +14,7 @@
   <p class="page-title">Writing</p>
   <ul class="post-list">
     {{ range $paginator.Pages }}
-    <li class="post-list-item">
-      <div class="post-meta">
-        <time><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> {{ .Date.Format "Jan 2, 2006" }}</time>
-        <span>&middot;</span>
-        <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> {{ .ReadingTime }} min read</span>
-        {{ with .Params.tags }}<span>&middot;</span>{{ range . }}<span class="post-tag"><a href="{{ "/tags/" | relURL }}{{ . | urlize }}">{{ . }}</a></span>{{ end }}{{ end }}
-      </div>
-      <div class="post-list-title">
-        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-      </div>
-      {{ with (or .Description (.Summary | plainify | truncate 160)) }}<p class="post-summary">{{ . }}</p>{{ end }}
-    </li>
+    {{ partial "post-list-item.html" . }}
     {{ end }}
   </ul>
 

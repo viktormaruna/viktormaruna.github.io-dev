@@ -7,7 +7,6 @@
   <!-- SEO Meta Tags -->
   <title>{{ if .IsHome }}{{ .Site.Title }} - {{ .Site.Params.description }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
   <meta name="description" content="{{ if .Description }}{{ .Description }}{{ else if .Summary }}{{ .Summary | truncate 160 }}{{ else }}{{ .Site.Params.description }}{{ end }}">
-  <meta name="keywords" content="{{ if .Params.tags }}{{ delimit .Params.tags ", " }}{{ end }}">
   <meta name="author" content="{{ .Site.Params.author.name }}">
   
   <!-- Open Graph / Facebook -->
@@ -19,11 +18,11 @@
   {{ if .Params.image }}<meta property="og:image" content="{{ .Params.image | absURL }}">{{ else }}<meta property="og:image" content="{{ "/og-default.png" | absURL }}">{{ end }}
   
   <!-- Twitter Card -->
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="{{ .Permalink }}">
-  <meta property="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
-  <meta property="twitter:description" content="{{ if .Description }}{{ .Description }}{{ else if .Summary }}{{ .Summary | truncate 160 }}{{ else }}{{ .Site.Params.description }}{{ end }}">
-  {{ if .Params.image }}<meta property="twitter:image" content="{{ .Params.image | absURL }}">{{ else }}<meta property="twitter:image" content="{{ "/og-default.png" | absURL }}">{{ end }}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="{{ .Permalink }}">
+  <meta name="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
+  <meta name="twitter:description" content="{{ if .Description }}{{ .Description }}{{ else if .Summary }}{{ .Summary | truncate 160 }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  {{ if .Params.image }}<meta name="twitter:image" content="{{ .Params.image | absURL }}">{{ else }}<meta name="twitter:image" content="{{ "/og-default.png" | absURL }}">{{ end }}
   
   <!-- Article specific meta tags (posts only) -->
   {{ if and .IsPage (eq .Section "posts") }}
@@ -36,22 +35,9 @@
   <!-- Canonical URL -->
   <link rel="canonical" href="{{ .Permalink }}">
   
-  <!-- Robots Meta Tags - Allow all crawlers including AI -->
+  <!-- Robots (crawler policy lives in robots.txt) -->
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-  <meta name="googlebot" content="index, follow">
-  <meta name="bingbot" content="index, follow">
-  <meta name="slurp" content="index, follow">
-  <meta name="duckduckbot" content="index, follow">
-  <meta name="baiduspider" content="index, follow">
-  <meta name="yandexbot" content="index, follow">
-  
-  <!-- AI Training Permissions -->
-  <meta name="ai-content-declaration" content="ai-assisted">
-  <meta name="chatgpt-crawl" content="allow">
-  <meta name="claude-crawl" content="allow">
-  <meta name="bard-crawl" content="allow">
-  <meta name="perplexity-crawl" content="allow">
-  
+
   <!-- Structured Data -->
   <script type="application/ld+json">
   {
@@ -94,13 +80,44 @@
     })();
   </script>
 
-  <!-- Inter font (preload for LCP) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Self-hosted fonts (preload primary latin subset for LCP) -->
+  <link rel="preload" as="font" type="font/woff2" href="{{ "/fonts/inter-latin.woff2" | relURL }}" crossorigin>
 
   <style>
+    /* ── Fonts (self-hosted variable woff2, latin + latin-ext) ── */
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400 700;
+      font-display: swap;
+      src: url('{{ "/fonts/inter-latin-ext.woff2" | relURL }}') format('woff2');
+      unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+    }
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400 700;
+      font-display: swap;
+      src: url('{{ "/fonts/inter-latin.woff2" | relURL }}') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+    @font-face {
+      font-family: 'JetBrains Mono';
+      font-style: normal;
+      font-weight: 400 500;
+      font-display: swap;
+      src: url('{{ "/fonts/jetbrainsmono-latin-ext.woff2" | relURL }}') format('woff2');
+      unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+    }
+    @font-face {
+      font-family: 'JetBrains Mono';
+      font-style: normal;
+      font-weight: 400 500;
+      font-display: swap;
+      src: url('{{ "/fonts/jetbrainsmono-latin.woff2" | relURL }}') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
     /* ── Design tokens ───────────────────────────────────────── */
     :root {
       --bg:         #ffffff;
@@ -130,6 +147,21 @@
     }
 
     ::selection { background: var(--selection); }
+
+    /* ── Skip link ───────────────────────────────────────────── */
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      z-index: 300;
+      background: var(--accent);
+      color: #fff;
+      padding: .5rem 1rem;
+      border-radius: 0 0 6px 0;
+      text-decoration: none;
+      font-size: .875rem;
+    }
+    .skip-link:focus { left: 0; }
 
     /* ── Reset ───────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -787,6 +819,7 @@
   </script>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
   <div id="reading-progress"></div>
   <nav class="site-nav">
     <div>
@@ -812,7 +845,7 @@
 
         <!-- Search -->
         <div class="nav-search">
-          <button class="search-btn" id="search-toggle" aria-label="Search">
+          <button class="search-btn" id="search-toggle" aria-label="Search" aria-expanded="false" aria-controls="search-dropdown">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
             </svg>
@@ -843,7 +876,7 @@
     </div>
   </nav>
 
-  <main>
+  <main id="main-content">
     {{ block "main" . }}{{ end }}
   </main>
 
@@ -894,16 +927,16 @@
       var content = document.querySelector('.post-content');
       if (!bar || !content) return;
       function update() {
-        var rect = content.getBoundingClientRect();
         var start = content.offsetTop;
         var end = start + content.offsetHeight;
         var scrolled = window.scrollY || document.documentElement.scrollTop;
         var viewH = window.innerHeight;
+        var denom = end - viewH - start;
         var pct = 0;
         if (scrolled + viewH >= end) {
           pct = 100;
-        } else if (scrolled > start) {
-          pct = ((scrolled - start) / (end - viewH - start)) * 100;
+        } else if (scrolled > start && denom > 0) {
+          pct = ((scrolled - start) / denom) * 100;
         }
         bar.style.width = Math.min(100, Math.max(0, pct)) + '%';
       }
@@ -921,11 +954,13 @@
 
       function openSearch() {
         dropdown.classList.add('open');
+        toggle.setAttribute('aria-expanded', 'true');
         input.focus();
         if (!index) loadIndex();
       }
       function closeSearch() {
         dropdown.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
         input.value = '';
         list.innerHTML = '';
       }
@@ -945,7 +980,7 @@
       });
 
       function loadIndex() {
-        fetch('/index.json')
+        fetch('{{ "/index.json" | relURL }}')
           .then(function(r) { return r.json(); })
           .then(function(data) { index = data; if (input.value) render(input.value); })
           .catch(function() { index = []; });
@@ -1007,6 +1042,9 @@
               btn.textContent = 'Copy';
               btn.classList.remove('copied');
             }, 2000);
+          }).catch(function() {
+            btn.textContent = 'Failed';
+            setTimeout(function() { btn.textContent = 'Copy'; }, 2000);
           });
         });
       });
