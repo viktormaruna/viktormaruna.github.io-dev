@@ -14,14 +14,14 @@ Technical insights on data engineering, cloud architecture, and AI — with a fo
 
 | Layer | Technology |
 |---|---|
-| Static site generator | [Hugo](https://gohugo.io/) v0.157+ (extended) |
+| Static site generator | [Hugo](https://gohugo.io/) v0.164+ (extended) |
 | Theme | Custom — `themes/vm/`, built from scratch, zero dependencies |
 | Hosting | GitHub Pages |
 | CI/CD | GitHub Actions — build, lint, link check, deploy |
 | Comments | [Giscus](https://giscus.app/) (GitHub Discussions, theme-aware) |
 | Analytics | Microsoft Clarity |
 | Monetisation | [Buy Me a Coffee](https://www.buymeacoffee.com/viktormaruna) (About page) |
-| Fonts | [Inter](https://rsms.me/inter/) + [JetBrains Mono](https://www.jetbrains.com/lego/monospace/) via Google Fonts |
+| Fonts | [Inter](https://rsms.me/inter/) + [JetBrains Mono](https://www.jetbrains.com/lego/monospace/) — self-hosted variable woff2 (latin + latin-ext), no third-party font requests |
 
 ## Features
 
@@ -70,20 +70,23 @@ Technical insights on data engineering, cloud architecture, and AI — with a fo
 **Quality**
 
 - 🔎 Internal link checking in CI via [htmltest](https://github.com/wjdp/htmltest)
+- 🌍 Weekly external link check (scheduled workflow, doesn't block deploys)
 - 📝 Markdown linting in CI via [markdownlint-cli2](https://github.com/DavidAnson/markdownlint-cli2)
+- ✅ Generated outputs (RSS, sitemap, search index, JSON-LD) validated in CI
+- 🔐 GitHub Actions pinned to commit SHAs; CI binaries verified by SHA-256; Dependabot keeps actions updated
 - 🔏 Dual license — CC BY 4.0 for content, MIT for code
 
 ## Local Development
 
-**Prerequisites:** Hugo extended v0.157+
+**Prerequisites:** Hugo extended v0.164+
 
 ```bash
 # Install Hugo (Linux — .deb)
-wget https://github.com/gohugoio/hugo/releases/download/v0.157.0/hugo_extended_0.157.0_linux-amd64.deb
-sudo dpkg -i hugo_extended_0.157.0_linux-amd64.deb
+wget https://github.com/gohugoio/hugo/releases/download/v0.164.0/hugo_extended_0.164.0_linux-amd64.deb
+sudo dpkg -i hugo_extended_0.164.0_linux-amd64.deb
 
 # Or download the binary to ~/bin
-wget -qO- https://github.com/gohugoio/hugo/releases/download/v0.157.0/hugo_extended_0.157.0_linux-amd64.tar.gz \
+wget -qO- https://github.com/gohugoio/hugo/releases/download/v0.164.0/hugo_extended_0.164.0_linux-amd64.tar.gz \
   | tar xz -C ~/bin hugo
 ```
 
@@ -149,18 +152,23 @@ themes/vm/
     index.html                   # Home page (avatar intro, social links, paginated post list)
     partials/
       comments.html              # Giscus integration (dynamic theme injection, live sync on toggle)
+      post-list-item.html        # Shared post list entry (home, section list, tag pages)
 static/
   avatar.jpg                     # Profile photo (homepage + about page)
   favicon.svg                    # SVG favicon
+  fonts/                         # Self-hosted Inter + JetBrains Mono (variable woff2)
   og-default.png                 # Default Open Graph image (1200×630)
   robots.txt                     # Allows all crawlers including AI bots
   humans.txt                     # humans.txt attribution
 .github/
+  dependabot.yml                 # Weekly GitHub Actions version updates
   workflows/
-    hugo.yml                     # Build + link check + deploy to GitHub Pages
+    hugo.yml                     # Build + validate outputs + link check + deploy to GitHub Pages
     lint.yml                     # Markdown linting (markdownlint-cli2)
+    external-links.yml           # Weekly external link check (htmltest, scheduled)
   copilot-instructions.md        # GitHub Copilot context for this repo
 .htmltest.yml                    # htmltest config (internal links only)
+.htmltest.external.yml           # htmltest config for the weekly external link check
 .markdownlint.json               # markdownlint rules (MD013/MD036/MD041/MD060 disabled)
 CNAME                            # Custom domain: dev.viktormaruna.com
 ```
@@ -183,21 +191,18 @@ CNAME                            # Custom domain: dev.viktormaruna.com
 
 Push to `main` triggers `.github/workflows/hugo.yml`:
 
-1. Installs Hugo extended v0.157 + Dart Sass v1.89.2
+1. Installs Hugo extended v0.164 (SHA-256 verified)
 2. Restores Hugo build cache (keyed on content + theme + config + static hashes)
 3. Builds with `--gc --minify`
-4. Validates all internal links with htmltest v0.17
-5. Deploys to GitHub Pages
+4. Validates generated outputs (RSS, sitemap, search index, JSON-LD)
+5. Validates all internal links with htmltest v0.17 (SHA-256 verified)
+6. Deploys to GitHub Pages
 
-A separate `lint.yml` workflow runs markdownlint-cli2 on `content/**/*.md` and `README.md`.
+A separate `lint.yml` workflow runs markdownlint-cli2 on `content/**/*.md` and `README.md`, and `external-links.yml` checks external links weekly without blocking deploys.
 
 Pull requests trigger build + lint (no deploy) for validation.
 
 The `CNAME` file sets the custom domain `dev.viktormaruna.com`.
-
-## Known Issues
-
-- `static/og-default.png` is an SVG file renamed to `.png` — social sharing previews (LinkedIn, X) may not display an image until replaced with a real 1200×630 PNG.
 
 ## License
 

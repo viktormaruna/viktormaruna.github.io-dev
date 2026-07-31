@@ -1,21 +1,5 @@
 baseURL = 'https://dev.viktormaruna.com/'
-languageCode = 'en-us'
 title = 'Dev - Viktor Maruna'
-
-[[menus.main]]
-name = 'Home'
-pageRef = '/'
-weight = 10
-
-[[menus.main]]
-name = 'Posts'
-pageRef = '/posts'
-weight = 20
-
-[[menus.main]]
-name = 'Tags'
-pageRef = '/tags'
-weight = 30
 
 [module]
   [module.hugoVersion]

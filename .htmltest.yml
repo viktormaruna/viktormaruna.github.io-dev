@@ -1,6 +1,6 @@
 DirectoryPath: "public"
 CheckExternal: false
-CheckMailTo: false
+CheckMailto: false
 IgnoreDirectoryMissingTrailingSlash: true
 IgnoreURLs:
   - "^mailto:"
