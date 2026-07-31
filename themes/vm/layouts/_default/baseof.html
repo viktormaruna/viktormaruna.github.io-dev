@@ -951,6 +951,12 @@
           .catch(function() { index = []; });
       }
 
+      function esc(s) {
+        return String(s).replace(/[&<>"']/g, function(c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+      }
+
       function highlight(text, query) {
         var re = new RegExp('(' + query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
         return text.replace(re, '<mark>$1</mark>');
@@ -966,13 +972,13 @@
         }).slice(0, 6);
 
         if (!results.length) {
-          list.innerHTML = '<div class="search-empty">No results for "' + query + '"</div>';
+          list.innerHTML = '<div class="search-empty">No results for "' + esc(query) + '"</div>';
           return;
         }
         list.innerHTML = results.map(function(p) {
-          return '<a href="' + p.url + '" class="search-result-item">' +
-            '<div class="search-result-title">' + highlight(p.title, q) + '</div>' +
-            '<div class="search-result-meta">' + p.date + (p.tags && p.tags.length ? ' &middot; #' + p.tags.join(' #') : '') + '</div>' +
+          return '<a href="' + esc(p.url) + '" class="search-result-item">' +
+            '<div class="search-result-title">' + highlight(esc(p.title), esc(q)) + '</div>' +
+            '<div class="search-result-meta">' + esc(p.date) + (p.tags && p.tags.length ? ' &middot; #' + esc(p.tags.join(' #')) : '') + '</div>' +
             '</a>';
         }).join('');
       }

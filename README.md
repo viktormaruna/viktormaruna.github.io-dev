@@ -195,10 +195,6 @@ Pull requests trigger build + lint (no deploy) for validation.
 
 The `CNAME` file sets the custom domain `dev.viktormaruna.com`.
 
-## Known Issues
-
-- `static/og-default.png` is an SVG file renamed to `.png` — social sharing previews (LinkedIn, X) may not display an image until replaced with a real 1200×630 PNG.
-
 ## License
 
 - **Blog posts and written content** — [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/): share and adapt with attribution
