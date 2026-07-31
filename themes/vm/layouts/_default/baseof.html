@@ -131,7 +131,7 @@
       --nav-bg:     rgba(255,255,255,0.88);
       --selection:  #fecdd3;
       --font:       'Inter', system-ui, -apple-system, sans-serif;
-      --font-mono:  'JetBrains Mono', ui-monospace, 'Fira Code', monospace;
+      --font-mono:  'JetBrains Mono', ui-monospace, monospace;
     }
     [data-theme="dark"] {
       --bg:         #0a0a0a;
@@ -165,7 +165,7 @@
 
     /* ── Reset ───────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+    html { font-size: 100%; -webkit-text-size-adjust: 100%; }
     body {
       background: var(--bg);
       color: var(--fg);
@@ -396,16 +396,17 @@
     .page-title {
       font-size: .75rem;
       font-weight: 600;
+      line-height: 1.65;
       text-transform: uppercase;
       letter-spacing: .1em;
       color: var(--accent);
-      margin-bottom: 1.75rem;
+      margin: 0 0 1.75rem;
     }
 
     /* ── Single post ─────────────────────────────────────────── */
     .post-header { margin-bottom: 2.5rem; }
     .post-header h1 { margin-bottom: .5rem; }
-    .post-content { font-size: 1rem; line-height: 1.75; }
+    .post-content { font-size: 1rem; line-height: 1.75; max-width: 70ch; overflow-wrap: break-word; }
     .post-content a { color: var(--accent); }
     .post-content a:hover { color: var(--accent-h); }
     .post-tags { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
@@ -503,6 +504,7 @@
       z-index: 100;
     }
     .search-dropdown.open { display: block; }
+    [data-theme="dark"] .search-dropdown { box-shadow: 0 8px 32px rgba(0,0,0,.55), 0 2px 8px rgba(0,0,0,.4); }
     .search-input-wrap {
       display: flex;
       align-items: center;
@@ -520,7 +522,7 @@
       color: var(--fg);
       font-family: var(--font);
     }
-    #search-input::placeholder { color: var(--faint); }
+    #search-input::placeholder { color: var(--muted); }
     .search-results-list { max-height: 320px; overflow-y: auto; }
     .search-result-item {
       display: block;
@@ -678,8 +680,8 @@
     }
 
     /* ── Syntax highlighting (github light) ─────────────────── */
-    .bg { background-color:#f7f7f7; }
-    .chroma { background-color:#f7f7f7;-webkit-text-size-adjust:none; }
+    .bg { background-color:var(--code-bg); }
+    .chroma { background-color:var(--code-bg); }
     .chroma .err { color:#f6f8fa;background-color:#82071e }
     .chroma .lnlinks { outline:none;text-decoration:none;color:inherit }
     .chroma .lntd { vertical-align:top;padding:0;margin:0;border:0; }
@@ -709,8 +711,8 @@
     .chroma .gl { text-decoration:underline }
 
     /* ── Syntax highlighting (github dark) ───────────────────── */
-    [data-theme="dark"] .bg { color:#e6edf3;background-color:#0d1117; }
-    [data-theme="dark"] .chroma { color:#e6edf3;background-color:#0d1117; }
+    [data-theme="dark"] .bg { color:#e6edf3;background-color:var(--code-bg); }
+    [data-theme="dark"] .chroma { color:#e6edf3;background-color:var(--code-bg); }
     [data-theme="dark"] .chroma .err { color:#f85149 }
     [data-theme="dark"] .chroma .hl { background-color:#6e7681 }
     [data-theme="dark"] .chroma .lnt,[data-theme="dark"] .chroma .ln { color:#6e7681 }
@@ -724,7 +726,7 @@
     [data-theme="dark"] .chroma .nl { color:#79c0ff;font-weight:bold }
     [data-theme="dark"] .chroma .nn { color:#ff7b72 }
     [data-theme="dark"] .chroma .nt { color:#7ee787 }
-    [data-theme="dark"] .chroma .nv,.chroma [data-theme="dark"] .vc,[data-theme="dark"] .chroma .vg,[data-theme="dark"] .chroma .vi,[data-theme="dark"] .chroma .vm { color:#79c0ff }
+    [data-theme="dark"] .chroma .nv,[data-theme="dark"] .chroma .vc,[data-theme="dark"] .chroma .vg,[data-theme="dark"] .chroma .vi,[data-theme="dark"] .chroma .vm { color:#79c0ff }
     [data-theme="dark"] .chroma .nf,[data-theme="dark"] .chroma .fm { color:#d2a8ff;font-weight:bold }
     [data-theme="dark"] .chroma .s,[data-theme="dark"] .chroma .sb,[data-theme="dark"] .chroma .sc,[data-theme="dark"] .chroma .sd,[data-theme="dark"] .chroma .s2,[data-theme="dark"] .chroma .si,[data-theme="dark"] .chroma .sx,[data-theme="dark"] .chroma .sr,[data-theme="dark"] .chroma .s1,[data-theme="dark"] .chroma .ss { color:#a5d6ff }
     [data-theme="dark"] .chroma .sa,[data-theme="dark"] .chroma .dl,[data-theme="dark"] .chroma .se,[data-theme="dark"] .chroma .sh { color:#79c0ff }
@@ -803,6 +805,27 @@
     [data-theme="dark"] .btn-home { color: #111111; }
     [data-theme="dark"] .btn-home:hover { color: #111111; }
     .bmc-wrap { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+
+    /* ── Responsive tables (markdown render hook) ────────────── */
+    .table-wrap { overflow-x: auto; margin: 1.5rem 0; }
+    .table-wrap table { margin: 0; }
+
+    /* ── Reduced motion ──────────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+
+    /* ── Print ───────────────────────────────────────────────── */
+    @media print {
+      .site-nav, #reading-progress, .skip-link, .breadcrumb, .toc,
+      .post-share, .post-nav, .pagination, .bmc-wrap, #giscus-container { display: none !important; }
+      body { border-top: none; }
+      main { max-width: 100%; padding: 0; }
+      main a { color: inherit; }
+    }
   </style>
 
   <!-- Webmention -->
@@ -810,7 +833,7 @@
   <link rel="pingback" href="https://webmention.io/dev.viktormaruna.com/xmlrpc">
 
   <!-- Microsoft Clarity -->
-  <script type="text/javascript">
+  <script>
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
@@ -821,22 +844,22 @@
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
   <div id="reading-progress"></div>
-  <nav class="site-nav">
+  <nav class="site-nav" aria-label="Main">
     <div>
       <a href="{{ "/" | relURL }}" class="site-nav-brand">{{ .Site.Title }}</a>
       <div class="site-nav-links" id="nav-links">
-      <a href="{{ "/posts/" | relURL }}"{{ if or .IsHome (eq .Section "posts") }} class="nav-active"{{ end }}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Posts</a>
-      <a href="{{ "/tags/" | relURL }}"{{ if eq .Section "tags" }} class="nav-active"{{ end }}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>Tags</a>
-      <a href="{{ "/about/" | relURL }}"{{ if eq .RelPermalink "/about/" }} class="nav-active"{{ end }}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>About</a>
-      <a href="{{ "/feed.xml" | relURL }}" aria-label="RSS Feed"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>RSS</a>
+      <a href="{{ "/posts/" | relURL }}"{{ if or .IsHome (eq .Section "posts") }} class="nav-active"{{ end }}><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Posts</a>
+      <a href="{{ "/tags/" | relURL }}"{{ if eq .Section "tags" }} class="nav-active"{{ end }}><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>Tags</a>
+      <a href="{{ "/about/" | relURL }}"{{ if eq .RelPermalink "/about/" }} class="nav-active"{{ end }}><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>About</a>
+      <a href="{{ "/feed.xml" | relURL }}" aria-label="RSS Feed"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>RSS</a>
       </div>
 
       <div class="nav-utils">
-        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-          <svg class="icon-menu" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <svg aria-hidden="true" class="icon-menu" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
           </svg>
-          <svg class="icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg aria-hidden="true" class="icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
           </svg>
         </button>
@@ -845,14 +868,14 @@
 
         <!-- Search -->
         <div class="nav-search">
-          <button class="search-btn" id="search-toggle" aria-label="Search" aria-expanded="false" aria-controls="search-dropdown">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <button type="button" class="search-btn" id="search-toggle" aria-label="Search" aria-expanded="false" aria-controls="search-dropdown">
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
             </svg>
           </button>
           <div class="search-dropdown" id="search-dropdown">
             <div class="search-input-wrap">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
               </svg>
               <input type="text" id="search-input" aria-label="Search posts" placeholder="Search posts…" autocomplete="off" spellcheck="false">
@@ -861,13 +884,13 @@
           </div>
         </div>
 
-        <button class="theme-btn" id="theme-toggle" aria-label="Toggle dark mode">
+        <button type="button" class="theme-btn" id="theme-toggle" aria-label="Toggle dark mode">
           <!-- Moon: visible in light mode -->
-          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg aria-hidden="true" class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
           </svg>
           <!-- Sun: visible in dark mode -->
-          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg aria-hidden="true" class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="4"/>
             <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
           </svg>
@@ -1007,7 +1030,7 @@
         }).slice(0, 6);
 
         if (!results.length) {
-          list.innerHTML = '<div class="search-empty">No results for "' + esc(query) + '"</div>';
+          list.innerHTML = '<div class="search-empty">No results for “' + esc(query) + '”</div>';
           return;
         }
         list.innerHTML = results.map(function(p) {
@@ -1029,6 +1052,7 @@
         pre.parentNode.insertBefore(wrap, pre);
         wrap.appendChild(pre);
         var btn = document.createElement('button');
+        btn.type = 'button';
         btn.className = 'copy-btn';
         btn.textContent = 'Copy';
         btn.setAttribute('aria-label', 'Copy code');

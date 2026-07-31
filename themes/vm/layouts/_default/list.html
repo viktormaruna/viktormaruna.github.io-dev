@@ -1,5 +1,5 @@
 {{ define "main" }}
-  <p class="page-title">{{ .Title }}</p>
+  <h1 class="page-title">{{ .Title }}</h1>
   <ul class="post-list">
     {{ range .Pages }}
     {{ partial "post-list-item.html" . }}

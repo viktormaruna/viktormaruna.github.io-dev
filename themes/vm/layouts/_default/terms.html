@@ -1,7 +1,7 @@
 {{ define "main" }}
   {{- $terms := .Data.Terms.ByCount -}}
   <div class="tags-page-header">
-    <p class="page-title">Browse by Topic</p>
+    <h1 class="page-title">Browse by Topic</h1>
   </div>
   <div class="tag-cloud">
     {{ range $terms }}

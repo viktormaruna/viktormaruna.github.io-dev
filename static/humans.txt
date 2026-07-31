@@ -8,13 +8,13 @@ Viktor Maruna
   Site: https://viktormaruna.com
 
 /* SITE */
-Last update: 2026-02-27
+Last update: 2026-07-31
 Language: English
 Doctype: HTML5
 IDE: VS Code
 
 /* TECHNOLOGY */
-Static site generator: Hugo v0.157.0
+Static site generator: Hugo v0.164.0
 Theme: Custom (vm), built from scratch
 Hosting: GitHub Pages
 Domain: dev.viktormaruna.com

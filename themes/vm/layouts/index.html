@@ -1,7 +1,7 @@
 {{ define "main" }}
   {{- $paginator := .Paginate (where .Site.RegularPages "Section" "posts") -}}
   <div class="home-intro">
-    <img src="{{ "/avatar.jpg" | relURL }}" alt="Viktor Maruna" class="home-intro-avatar">
+    <img src="{{ "/avatar.jpg" | relURL }}" alt="Viktor Maruna" class="home-intro-avatar" width="72" height="72" decoding="async">
     <div class="home-intro-text">
       <h1 class="home-intro-name">Viktor Maruna</h1>
       <p class="home-intro-bio">Data Engineer &amp; Solution Architect at <a href="https://adastracorp.com/" target="_blank" rel="noopener">Adastra</a>. Writing about cloud architecture, data platforms, and AI.</p>
@@ -11,7 +11,7 @@
       </div>
     </div>
   </div>
-  <p class="page-title">Writing</p>
+  <h2 class="page-title">Writing</h2>
   <ul class="post-list">
     {{ range $paginator.Pages }}
     {{ partial "post-list-item.html" . }}
@@ -21,9 +21,9 @@
   {{ if gt $paginator.TotalPages 1 }}
   <nav class="pagination" aria-label="Post pagination">
     {{ if $paginator.HasPrev }}
-      <a href="{{ $paginator.Prev.URL }}">&larr;</a>
+      <a href="{{ $paginator.Prev.URL }}" aria-label="Previous page">&larr;</a>
     {{ else }}
-      <span class="page-disabled">&larr;</span>
+      <span class="page-disabled" aria-hidden="true">&larr;</span>
     {{ end }}
 
     {{ range $paginator.Pagers }}
@@ -35,9 +35,9 @@
     {{ end }}
 
     {{ if $paginator.HasNext }}
-      <a href="{{ $paginator.Next.URL }}">&rarr;</a>
+      <a href="{{ $paginator.Next.URL }}" aria-label="Next page">&rarr;</a>
     {{ else }}
-      <span class="page-disabled">&rarr;</span>
+      <span class="page-disabled" aria-hidden="true">&rarr;</span>
     {{ end }}
   </nav>
   {{ end }}

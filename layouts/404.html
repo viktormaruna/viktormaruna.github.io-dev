@@ -1,23 +1,44 @@
 {{ define "main" }}
-  <div style="text-align:center; padding: 5rem 1rem 3rem;">
-    <p style="font-size:5rem; font-weight:700; margin:0; line-height:1; color:var(--accent);">404</p>
-    <h1 style="font-size:1.5rem; font-weight:600; color:var(--fg); margin: 1rem 0 .5rem;">Page not found</h1>
-    <p style="color:var(--muted); font-size:.95rem; margin-bottom:2rem;">
-      The page you're looking for doesn't exist or has been moved.
+  <style>
+    .error-hero { text-align: center; padding: 5rem 1rem 3rem; }
+    .error-code { font-size: 5rem; font-weight: 700; margin: 0; line-height: 1; color: var(--accent); }
+    .error-hero h1 { font-size: 1.5rem; font-weight: 600; color: var(--fg); margin: 1rem 0 .5rem; }
+    .error-lead { color: var(--muted); font-size: .95rem; margin-bottom: 2rem; }
+    .error-recent { max-width: 480px; margin: 0 auto 4rem; }
+    .error-recent h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      margin: 0 0 1.5rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: .5rem;
+    }
+    .error-recent .post-list-item { padding: 1rem 0; }
+    .error-recent .post-list-title { margin-bottom: .25rem; font-size: 1rem; }
+    .error-recent .post-meta { font-size: .8rem; }
+  </style>
+  <div class="error-hero">
+    <p class="error-code">404</p>
+    <h1>Page not found</h1>
+    <p class="error-lead">
+      The page you’re looking for doesn’t exist or has been moved.
     </p>
     <a href="{{ "/" | relURL }}" class="btn-home">← Back to home</a>
   </div>
 
-  <div style="max-width:480px; margin:0 auto 4rem;">
-    <h2 style="font-size:1rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; margin-bottom:1.5rem; text-align:center; border-bottom:1px solid var(--border); padding-bottom:.5rem;">Recent Posts</h2>
+  <div class="error-recent">
+    <h2>Recent Posts</h2>
     <ul class="post-list">
       {{ range first 5 (where .Site.RegularPages "Section" "posts") }}
-      <li class="post-list-item" style="padding:1rem 0;">
-        <div class="post-list-title" style="margin-bottom:0.25rem;">
-          <a href="{{ .RelPermalink }}" style="font-size:1rem;">{{ .Title }}</a>
+      <li class="post-list-item">
+        <div class="post-list-title">
+          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
         </div>
-        <div class="post-meta" style="font-size:0.8rem;">
-          <time>{{ .Date.Format "Jan 2, 2006" }}</time>
+        <div class="post-meta">
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
         </div>
       </li>
       {{ end }}
